@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
   trainee.associate = function(models) {
     // associations can be defined here
     trainee.belongsToMany(models.missions, {through: 'applications'});
+    trainee.belongsTo(models.schools);
+    trainee.belongsTo(models.levelStudies);
   };
   return trainee;
 };
