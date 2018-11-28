@@ -1,8 +1,12 @@
-var express = require("express");
-var app = express();
+const express = require("express");
+const app = express();
+const models = require("./models");
 
 app.get("/", function(req, res) {
   res.send("Hello World");
 });
 
-app.listen(3000);
+models.sequelize.sync().then(() => {
+  app.listen(process.env.PORT || 3001);
+});
+models.exports = app;
