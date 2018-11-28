@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const company = sequelize.define('company', {
-    lastnameContact: DataTypes.STRING,
+    lasnameContact: DataTypes.STRING,
     firstnameContact: DataTypes.STRING,
     phone: DataTypes.INTEGER,
     function: DataTypes.STRING,
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   company.associate = function(models) {
     // associations can be defined here
-    company.hasMany(models.missions)
+    company.hasMany(models.missions);
   };
   return company;
 };

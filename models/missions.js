@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     dateStart: DataTypes.DATE,
     dateEnd: DataTypes.DATE,
     description: DataTypes.STRING(2500),
-    isActieved: DataTypes.BOOLEAN,
+    isActived: DataTypes.BOOLEAN,
     town: DataTypes.STRING,
     isFull: DataTypes.BOOLEAN,
     updateAt: DataTypes.DATE,
@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   missions.associate = function(models) {
     // associations can be defined here
-    missions.belongsTo(models.company)
-    missions.belongsToMany(models.trainee,{through: 'applications'})
+    missions.belongsTo(models.company);
+    missions.belongsToMany(models.trainee, {through: 'applications'});
   };
   return missions;
 };

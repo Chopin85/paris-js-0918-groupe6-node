@@ -1,68 +1,47 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('trainees', {
+    return queryInterface.createTable('companies', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      lastname: {
+      lasnameContact: {
         type: Sequelize.STRING
       },
-      firstname: {
-        type: Sequelize.STRING
-      },
-      email: {
-        type: Sequelize.STRING
-      },
-      pictures: {
+      firstnameContact: {
         type: Sequelize.STRING
       },
       phone: {
         type: Sequelize.INTEGER
       },
-<<<<<<< HEAD
-      adress: {
-=======
-      address: {
->>>>>>> 595e7215c38f9e3460d43f1f6f2985372a0cb4b9
+      function: {
         type: Sequelize.STRING
-      },
-      town: {
-        type: Sequelize.STRING
-      },
-      postalCode: {
-        type: Sequelize.INTEGER
       },
       password: {
         type: Sequelize.STRING
       },
-      isClosed: {
+      email: {
+        type: Sequelize.STRING
+      },
+      isActived: {
         type: Sequelize.BOOLEAN
       },
-<<<<<<< HEAD
-      isActieved: {
-=======
-      isActived: {
->>>>>>> 595e7215c38f9e3460d43f1f6f2985372a0cb4b9
+      isClosed: {
         type: Sequelize.BOOLEAN
       },
       updatedAt: {
         type: Sequelize.DATE
       },
-<<<<<<< HEAD
       createdAt: {
         type: Sequelize.DATE
       },
       reasonClosed: {
-=======
-      createAt: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
-      reasonclosed: {
->>>>>>> 595e7215c38f9e3460d43f1f6f2985372a0cb4b9
+      pictures: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -76,6 +55,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('trainees');
+    return queryInterface.dropTable('companies');
   }
 };
