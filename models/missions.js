@@ -17,5 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     missions.belongsTo(models.company);
     missions.belongsToMany(models.trainee, {through: 'applications'});
   };
+  
   return missions;
 };
