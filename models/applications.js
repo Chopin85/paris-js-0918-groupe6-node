@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   applications.associate = function(models) {
     // associations can be defined here
-
   };
   return applications;
 };
