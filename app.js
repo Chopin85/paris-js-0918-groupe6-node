@@ -10,7 +10,4 @@ app.get('/', (req, res) => {
 models.sequelize.sync().then(() => {
   app.listen(process.env.PORT || 3001);
 });
-
-models.sequelize.sync().then(() => {
-  app.listen(process.env.PORT || 3001);
-});
+models.exports = app;
