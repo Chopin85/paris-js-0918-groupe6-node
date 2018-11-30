@@ -1,0 +1,1 @@
+exports.traineeRoute = require('./traineeRoute');
