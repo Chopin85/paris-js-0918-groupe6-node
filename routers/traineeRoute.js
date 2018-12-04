@@ -17,15 +17,15 @@ traineeRoute.route('/').post((req, res) => {
     models.trainee
       .findOne({
         attributes: ['email'],
-        where: { email: email }
+        where: { email }
       })
       .then(traineeFound => {
         if (!traineeFound) {
           const newTrainee = new models.trainee({
-            firstname: firstname,
-            lastname: lastname,
-            email: email,
-            password: password,
+            firstname,
+            lastname,
+            email,
+            password,
             isActived: true
           });
           console.log(req.body);
