@@ -5,7 +5,7 @@ const models = require('../models');
 const regex = /\s/gm;
 // const regex = /^\s*$/gm;
 companyRoute.route('/').post((req, res) => {
-  const { lastnameContact, firstnameContact, email, password } = req.body;
+  const { companyName, lastnameContact, firstnameContact, email, phone, password } = req.body;
   if (lastnameContact == null || firstnameContact == null || email == null || password == null) {
     res.json({
       openDialog: false,
@@ -22,9 +22,11 @@ companyRoute.route('/').post((req, res) => {
       .then(companyFound => {
         if (!companyFound) {
           const newcompany = new models.company({
+            companyName,
             lastnameContact,
             firstnameContact,
             email,
+            phone,
             password,
             isActived: true
           });
