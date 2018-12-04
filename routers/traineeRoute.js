@@ -70,14 +70,18 @@ traineeRoute.post('/login', (req, res) => {
           });
         } else if (traineeFound && traineeFound.password === password) {
           res.json({
-            passwordVerified: true
+            passwordVerified: true,
+            openDialog: true,
+            title: `Succes !`,
+            content: `vous allez être redirigé vers votre page`,
+            button: `Fermer`
           });
         } else {
           res.json({
             passwordVerified: false,
             openDialog: true,
             title: `false password`,
-            content: `erreur lors de la saisie du mot de pass`,
+            content: `erreur lors de la saisie du mot de passe`,
             button: `Fermer`
           });
         }
