@@ -20,7 +20,7 @@ missionRouter
     res.end('fin post');
   })
   .get((req, res) => {
-    models.missions.findAll({}.then(mf => res.send(mf)));
+    models.missions.findAll().then(mf => res.send(mf));
   });
 
 missionRouter
