@@ -1,10 +1,8 @@
 const express = require('express');
-
 const traineeRoute = express.Router();
 const models = require('../models');
-const regex = /\s/gm;
-// const regex = /^\s*$/gm;
-traineeRoute.route('/').post((req, res) => {
+
+traineeRoute.post('/', (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   if (firstname == null || lastname == null || email == null || password == null) {
     res.json({
@@ -17,18 +15,17 @@ traineeRoute.route('/').post((req, res) => {
     models.trainee
       .findOne({
         attributes: ['email'],
-        where: { email: email }
+        where: { email }
       })
       .then(traineeFound => {
         if (!traineeFound) {
           const newTrainee = new models.trainee({
-            firstname: firstname,
-            lastname: lastname,
-            email: email,
-            password: password,
+            firstname,
+            lastname,
+            email,
+            password,
             isActived: true
           });
-          console.log(req.body);
           newTrainee.save();
           res.json({
             openDialog: true,
