@@ -7,7 +7,7 @@ missionRouter
   .route('/')
   .post((req, res) => {
     //const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
-    const newForm = new models.missions({
+    const newForm = new models.Missions({
       titleMission: req.body.titleMission,
       dateStart: req.body.dateStart,
       dateEnd: req.body.dateEnd,
@@ -20,7 +20,7 @@ missionRouter
     res.end('fin post');
   })
   .get((req, res) => {
-    models.missions.findAll().then(mf => res.send(mf));
+    models.Missions.findAll().then(mf => res.send(mf));
   });
 
 missionRouter
@@ -31,48 +31,42 @@ missionRouter
   // mf = MissionFound
 
   .get((req, res) => {
-    models.missions
-      .find({
-        where: { id: req.params.id }
-      })
-      .then(mf => (mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission Men' })));
+    models.Missions.find({
+      where: { id: req.params.id }
+    }).then(mf => (mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission Men' })));
   })
 
   .put((req, res) => {
     const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
-    models.missions
-      .find({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then(mf => {
-        if (mf) {
-          mf.updateAttributes({
-            titleMission: titleMission,
-            dateStart: dateStart,
-            dateEnd: dateEnd,
-            town: town,
-            intro: intro,
-            description: description,
-            pictures: pictures
-          }).then(mf => {
-            res.send(mf);
-          });
-        } else {
-          res.status(404).json({ error: 'pas de Mission' });
-        }
-      });
+    models.Missions.find({
+      where: {
+        id: req.params.id
+      }
+    }).then(mf => {
+      if (mf) {
+        mf.updateAttributes({
+          titleMission: titleMission,
+          dateStart: dateStart,
+          dateEnd: dateEnd,
+          town: town,
+          intro: intro,
+          description: description,
+          pictures: pictures
+        }).then(mf => {
+          res.send(mf);
+        });
+      } else {
+        res.status(404).json({ error: 'pas de Mission' });
+      }
+    });
   })
 
   .delete((req, res) => {
-    models.missions
-      .destroy({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then(mf => (mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission' })));
+    models.Missions.destroy({
+      where: {
+        id: req.params.id
+      }
+    }).then(mf => (mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission' })));
   });
 
 // app.use('/mission', router);

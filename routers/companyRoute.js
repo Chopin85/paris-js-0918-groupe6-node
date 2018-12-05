@@ -16,43 +16,41 @@ Router.post('/', (req, res) => {
     });
     // use this res.status(400).json({message:missing parametres});
   } else {
-    models.company
-      .findOne({
-        attributes: ['email'],
-        where: { email }
-      })
-      .then(companyFound => {
-        if (!companyFound) {
-          const newcompany = new models.Company({
-            companyName,
-            lastnameContact,
-            firstnameContact,
-            email,
-            phone,
-            password,
-            isActived: true
-          });
-          console.log(req.body);
-          newcompany.save();
-          res.json({
-            openDialog: true,
-            title: 'user created',
-            content: 'Félicitations, votre compte a été créé',
-            button: 'suivant'
-          });
-          // findOne after save (last id created)
-          // return id to the frontend
-          // use this res.status(200).json({message:user created});
-        } else {
-          res.json({
-            openDialog: true,
-            title: 'user already exists',
-            content: 'Cette adresse mail est déjà enregistrée',
-            button: 'se connecter'
-          });
-          // use this res.status(401).json({message:user already exists});
-        }
-      });
+    models.Company.findOne({
+      attributes: ['email'],
+      where: { email }
+    }).then(companyFound => {
+      if (!companyFound) {
+        const newcompany = new models.Company({
+          companyName,
+          lastnameContact,
+          firstnameContact,
+          email,
+          phone,
+          password,
+          isActived: true
+        });
+        console.log(req.body);
+        newcompany.save();
+        res.json({
+          openDialog: true,
+          title: 'user created',
+          content: 'Félicitations, votre compte a été créé',
+          button: 'suivant'
+        });
+        // findOne after save (last id created)
+        // return id to the frontend
+        // use this res.status(200).json({message:user created});
+      } else {
+        res.json({
+          openDialog: true,
+          title: 'user already exists',
+          content: 'Cette adresse mail est déjà enregistrée',
+          button: 'se connecter'
+        });
+        // use this res.status(401).json({message:user already exists});
+      }
+    });
   }
 });
 
@@ -66,42 +64,40 @@ Router.route('/login').post((req, res) => {
       button: 'ok'
     });
   } else {
-    models.company
-      .findOne({
-        attributes: ['email', 'password', 'firstnameContact'],
-        where: { email }
-      })
-      .then(companyFound => {
-        console.log(companyFound);
-        // res.send(200);
-        if (companyFound != null) {
-          if (companyFound.email === email && companyFound.password === password) {
-            res.json({
-              openDialog: true,
-              title: 'user connected',
-              content: `Bonjour , ${companyFound.firstnameContact}`,
-              button: 'suivant'
-            });
-            // return code 200 and return id user
-          } else if (companyFound.email === email && companyFound.password !== password) {
-            res.json({
-              openDialog: true,
-              title: 'password wrong',
-              content: 'password wrong',
-              button: 'suivant'
-            });
-            // return 403
-          }
-        } else {
+    models.Company.findOne({
+      attributes: ['email', 'password', 'firstnameContact'],
+      where: { email }
+    }).then(companyFound => {
+      console.log(companyFound);
+      // res.send(200);
+      if (companyFound != null) {
+        if (companyFound.email === email && companyFound.password === password) {
           res.json({
             openDialog: true,
-            title: 'user does not exist ',
-            content: 'user does not exist',
+            title: 'user connected',
+            content: `Bonjour , ${companyFound.firstnameContact}`,
             button: 'suivant'
           });
-          // return 404
+          // return code 200 and return id user
+        } else if (companyFound.email === email && companyFound.password !== password) {
+          res.json({
+            openDialog: true,
+            title: 'password wrong',
+            content: 'password wrong',
+            button: 'suivant'
+          });
+          // return 403
         }
-      });
+      } else {
+        res.json({
+          openDialog: true,
+          title: 'user does not exist ',
+          content: 'user does not exist',
+          button: 'suivant'
+        });
+        // return 404
+      }
+    });
   }
 });
 

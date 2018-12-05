@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const trainee = sequelize.define(
-    'trainee',
+  const Trainee = sequelize.define(
+    'Trainee',
     {
       lastname: DataTypes.STRING,
       firstname: DataTypes.STRING,
@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  trainee.associate = models => {
+  Trainee.associate = models => {
     // associations can be defined here
-    trainee.belongsToMany(models.missions, { through: 'applications' });
-    trainee.belongsTo(models.schools);
-    trainee.belongsTo(models.levelStudies);
+    Trainee.belongsToMany(models.Missions, { through: 'Applications' });
+    Trainee.belongsTo(models.Schools);
+    Trainee.belongsTo(models.LevelStudies);
   };
-  return trainee;
+  return Trainee;
 };
