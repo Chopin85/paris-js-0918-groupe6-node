@@ -62,7 +62,7 @@ companyRoute.route('/login').post((req, res) => {
   } else {
     models.company
       .findOne({
-        attributes: ['email', 'password'],
+        attributes: ['email', 'password', 'firstnameContact'],
         where: { email }
       })
       .then(companyFound => {
@@ -73,7 +73,7 @@ companyRoute.route('/login').post((req, res) => {
             res.json({
               openDialog: true,
               title: 'user connected',
-              content: `Bonjour , ${companyFound.email}`,
+              content: `Bonjour , ${companyFound.firstnameContact}`,
               button: 'suivant'
             });
           } else if (companyFound.email === email && companyFound.password !== password) {
