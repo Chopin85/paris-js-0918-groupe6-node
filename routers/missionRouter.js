@@ -3,22 +3,10 @@ const models = require('../models');
 
 const missionRouter = express.Router();
 
-<<<<<<< HEAD
-missionRouter.route('/').post((req, res) => {
-  const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
-  const newForm = new models.missions({
-    titleMission,
-    dateStart,
-    dateEnd,
-    town,
-    intro,
-    description,
-    pictures
-=======
 missionRouter
   .route('/')
   .post((req, res) => {
-    //const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
+    // const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
     const newForm = new models.missions({
       titleMission: req.body.titleMission,
       dateStart: req.body.dateStart,
@@ -33,7 +21,6 @@ missionRouter
   })
   .get((req, res) => {
     models.missions.findAll().then(mf => res.send(mf));
->>>>>>> 76a5c799a4eacc52f6e08996655e253db72de25e
   });
 
 missionRouter

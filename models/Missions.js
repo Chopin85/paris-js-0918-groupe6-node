@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const missions = sequelize.define(
-    'missions',
+  const Missions = sequelize.define(
+    'Missions',
     {
       titleMission: DataTypes.STRING,
       dateStart: DataTypes.DATE,
@@ -15,13 +15,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  missions.associate = models => {
+  Missions.associate = models => {
     // associations can be defined here
-    missions.belongsTo(models.company);
-    missions.belongsTo(models.levelStudies);
-    missions.belongsToMany(models.trainee, { through: 'applications' });
-    missions.belongsToMany(models.schools, { through: 'schools&missions' });
+    Missions.belongsTo(models.Company);
+    Missions.belongsTo(models.LevelStudies);
+    Missions.belongsToMany(models.Trainee, { through: 'Applications' });
+    Missions.belongsToMany(models.Schools, { through: 'Schools&Missions' });
   };
 
-  return missions;
+  return Missions;
 };
