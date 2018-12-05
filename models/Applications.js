@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const applications = sequelize.define(
-    'applications',
+  const Applications = sequelize.define(
+    'Applications',
     {
       statusAppli: DataTypes.STRING,
       dateAppli: DataTypes.DATE,
@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  applications.associate = models => {
+  Applications.associate = models => {
     // associations can be defined here
   };
-  return applications;
+  return Applications;
 };

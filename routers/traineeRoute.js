@@ -1,4 +1,5 @@
 const express = require('express');
+
 const traineeRoute = express.Router();
 const models = require('../models');
 
@@ -13,36 +14,34 @@ traineeRoute.post('/', (req, res) => {
       button: 'ok'
     });
   } else {
-    models.trainee
-      .findOne({
-        attributes: ['email'],
-        where: { email }
-      })
-      .then(traineeFound => {
-        if (!traineeFound) {
-          const newTrainee = new models.trainee({
-            firstname,
-            lastname,
-            email,
-            password,
-            isActived: true
-          });
-          newTrainee.save();
-          res.json({
-            openDialog: true,
-            title: 'user created',
-            content: 'Félicitations, votre compte a été créé',
-            button: 'suivant'
-          });
-        } else {
-          res.json({
-            openDialog: true,
-            title: 'user already exists',
-            content: 'Cette adresse mail est déjà enregistrée',
-            button: 'se connecter'
-          });
-        }
-      });
+    models.Trainee.findOne({
+      attributes: ['email'],
+      where: { email }
+    }).then(traineeFound => {
+      if (!traineeFound) {
+        const newTrainee = new models.Trainee({
+          firstname,
+          lastname,
+          email,
+          password,
+          isActived: true
+        });
+        newTrainee.save();
+        res.json({
+          openDialog: true,
+          title: 'user created',
+          content: 'Félicitations, votre compte a été créé',
+          button: 'suivant'
+        });
+      } else {
+        res.json({
+          openDialog: true,
+          title: 'user already exists',
+          content: 'Cette adresse mail est déjà enregistrée',
+          button: 'se connecter'
+        });
+      }
+    });
   }
 });
 // post('/login')
@@ -53,10 +52,9 @@ traineeRoute.post('/login', (req, res) => {
   if (email == null || password == null) {
     res.send('champs requis'); // message automatique via le input html 'required'
   } else {
-    models.trainee
-      .findOne({
-        where: { email }
-      })
+    models.Trainee.findOne({
+      where: { email }
+    })
       // select * from trainee where email = req.body.email
       .then(traineeFound => {
         // traineeFound --> objet qui contient les infos demandées

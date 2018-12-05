@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const company = sequelize.define(
-    'company',
+  const Company = sequelize.define(
+    'Company',
     {
       companyName: DataTypes.STRING,
       lastnameContact: DataTypes.STRING,
@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  company.associate = models => {
+  Company.associate = models => {
     // associations can be defined here
-    company.hasMany(models.missions);
+    Company.hasMany(models.Missions);
   };
-  return company;
+  return Company;
 };

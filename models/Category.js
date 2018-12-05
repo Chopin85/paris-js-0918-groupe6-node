@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const category = sequelize.define(
-    "category",
+  const Category = sequelize.define(
+    'Category',
     {
       interest: DataTypes.STRING,
       noInterest: DataTypes.STRING,
@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  category.associate = function(models) {
-    category.belongsTo(models.trainee);
-    category.belongsTo(models.company);
+  Category.associate = function(models) {
+    Category.belongsTo(models.Trainee);
+    Category.belongsTo(models.Company);
     // associations can be defined here
   };
-  return category;
+  return Category;
 };
