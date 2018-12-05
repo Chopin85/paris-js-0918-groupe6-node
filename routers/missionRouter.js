@@ -6,13 +6,13 @@ const missionRouter = express.Router();
 missionRouter.route('/').post((req, res) => {
   const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
   const newForm = new models.missions({
-    titleMission: titleMission,
-    dateStart: dateStart,
-    dateEnd: dateEnd,
-    town: town,
-    intro: intro,
-    description: description,
-    pictures: pictures
+    titleMission,
+    dateStart,
+    dateEnd,
+    town,
+    intro,
+    description,
+    pictures
   });
   newForm.save();
   res.end('fin post');
@@ -44,13 +44,13 @@ missionRouter
       .then(mf => {
         if (mf) {
           mf.updateAttributes({
-            titleMission: titleMission,
-            dateStart: dateStart,
-            dateEnd: dateEnd,
-            town: town,
-            intro: intro,
-            description: description,
-            pictures: pictures
+            titleMission,
+            dateStart,
+            dateEnd,
+            town,
+            intro,
+            description,
+            pictures
           }).then(mf => {
             res.send(mf);
           });
