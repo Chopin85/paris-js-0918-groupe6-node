@@ -1,10 +1,11 @@
 const express = require('express');
 
-const companyRoute = express.Router();
+const Router = express.Router();
 const models = require('../models');
-const regex = /\s/gm;
+
 // const regex = /^\s*$/gm;
-companyRoute.route('/').post((req, res) => {
+Router.post('/', (req, res) => {
+  // if not required but not write null (add trim for checking lenght) -- IMPORTANT
   const { companyName, lastnameContact, firstnameContact, email, phone, password } = req.body;
   if (lastnameContact == null || firstnameContact == null || email == null || password == null) {
     res.json({
@@ -13,6 +14,7 @@ companyRoute.route('/').post((req, res) => {
       content: 'Veuillez remplir tous les champs',
       button: 'ok'
     });
+    // use this res.status(400).json({message:missing parametres});
   } else {
     models.company
       .findOne({
@@ -21,7 +23,7 @@ companyRoute.route('/').post((req, res) => {
       })
       .then(companyFound => {
         if (!companyFound) {
-          const newcompany = new models.company({
+          const newcompany = new models.Company({
             companyName,
             lastnameContact,
             firstnameContact,
@@ -38,6 +40,9 @@ companyRoute.route('/').post((req, res) => {
             content: 'Félicitations, votre compte a été créé',
             button: 'suivant'
           });
+          // findOne after save (last id created)
+          // return id to the frontend
+          // use this res.status(200).json({message:user created});
         } else {
           res.json({
             openDialog: true,
@@ -45,12 +50,13 @@ companyRoute.route('/').post((req, res) => {
             content: 'Cette adresse mail est déjà enregistrée',
             button: 'se connecter'
           });
+          // use this res.status(401).json({message:user already exists});
         }
       });
   }
 });
 
-companyRoute.route('/login').post((req, res) => {
+Router.route('/login').post((req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
     res.json({
@@ -76,6 +82,7 @@ companyRoute.route('/login').post((req, res) => {
               content: `Bonjour , ${companyFound.firstnameContact}`,
               button: 'suivant'
             });
+            // return code 200 and return id user
           } else if (companyFound.email === email && companyFound.password !== password) {
             res.json({
               openDialog: true,
@@ -83,6 +90,7 @@ companyRoute.route('/login').post((req, res) => {
               content: 'password wrong',
               button: 'suivant'
             });
+            // return 403
           }
         } else {
           res.json({
@@ -91,9 +99,10 @@ companyRoute.route('/login').post((req, res) => {
             content: 'user does not exist',
             button: 'suivant'
           });
+          // return 404
         }
       });
   }
 });
 
-module.exports = companyRoute;
+module.exports = Router;
