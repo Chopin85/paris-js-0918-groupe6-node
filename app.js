@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('morgan');
-const { missionRouter, traineeRoute, companyRoute } = require('./routers');
+const { missionRouter, traineeRoute, companyRoute, paraData } = require('./routers');
 const models = require('./models');
 
 const app = express();
@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/mission', missionRouter);
 app.use('/trainee', traineeRoute);
 app.use('/company', companyRoute);
+app.use('/paradata', paraData);
 
 /* Server Listening */
 
