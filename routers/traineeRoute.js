@@ -62,28 +62,11 @@ traineeRoute.post('/login', (req, res) => {
         // traineeFound --> objet qui contient les infos demandées
         if (!traineeFound) {
           // si l'objet ne contien rien
-          res.json({
-            openDialog: true,
-            title: `user doesn't exists`,
-            content: `Cette adresse mail n'est pas reconnue, essayer de nouveau ou bien crééz votre compte :)`,
-            button: `Créer un compte`
-          });
+          res.status(405).json({ message: 'user not found' });
         } else if (traineeFound && traineeFound.password === password) {
-          res.json({
-            passwordVerified: true,
-            openDialog: true,
-            title: `Succes !`,
-            content: `vous allez être redirigé vers votre page`,
-            button: `Fermer`
-          });
+          res.status(202).json({ message: 'user connected' });
         } else {
-          res.json({
-            passwordVerified: false,
-            openDialog: true,
-            title: `false password`,
-            content: `erreur lors de la saisie du mot de passe`,
-            button: `Fermer`
-          });
+          res.status(402).json({ message: 'false password' });
         }
       });
   }
