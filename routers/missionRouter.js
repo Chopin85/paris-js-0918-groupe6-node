@@ -14,7 +14,8 @@ missionRouter
       town: req.body.town,
       intro: req.body.intro,
       description: req.body.description,
-      pictures: req.body.pictures
+      pictures: 'test',
+      CompanyId: 2
     });
     newForm.save();
     res.end('fin post');
