@@ -13,8 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       isClosed: DataTypes.BOOLEAN,
       isActived: DataTypes.BOOLEAN,
-      updatedAt: DataTypes.DATE,
-      createAt: DataTypes.DATE,
       reasonclosed: DataTypes.STRING
     },
     {}
