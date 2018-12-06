@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/mission', missionRouter);
 app.use('/trainee', traineeRoute);
 app.use('/company', companyRoute);
-app.use('/paradata', paraData);
+app.use('/general', paraData);
 
 /* Server Listening */
 
