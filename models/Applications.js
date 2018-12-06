@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Applications = sequelize.define(
     'Applications',
     {
-      statusAppli: DataTypes.STRING,
+      statusAppli: DataTypes.BOOLEAN,
       dateAppli: DataTypes.DATE,
       preselection: DataTypes.STRING,
       selection: DataTypes.BOOLEAN

@@ -17,10 +17,33 @@ module.exports = (sequelize, DataTypes) => {
   );
   Missions.associate = models => {
     // associations can be defined here
-    Missions.belongsTo(models.Company);
-    Missions.belongsTo(models.LevelStudies);
-    Missions.belongsToMany(models.Trainee, { through: 'Applications' });
-    Missions.belongsToMany(models.Schools, { through: 'Schools&Missions' });
+    Missions.belongsTo(models.Company, {
+      // foreignKey: {
+      //   allowNull: false
+      // }
+    });
+    Missions.belongsTo(models.LevelStudies, {
+      // foreignKey: {
+      //   allowNull: false
+      // }
+    });
+    Missions.belongsToMany(
+      models.Trainee,
+      { through: 'Applications' }
+
+      // foreignKey: {
+      //   allowNull: false
+      // }
+    );
+    Missions.belongsToMany(
+      models.Schools,
+      { through: 'Schools&Missions' }
+      // {
+      //   foreignKey: {
+      //     allowNull: false
+      //   }
+      // }
+    );
   };
 
   return Missions;

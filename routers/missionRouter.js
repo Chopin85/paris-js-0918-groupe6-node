@@ -15,7 +15,7 @@ missionRouter
       intro: req.body.intro,
       description: req.body.description,
       pictures: 'test',
-      CompanyId: 2
+      CompanyId: 1
     });
     newForm.save();
     res.end('fin post');
