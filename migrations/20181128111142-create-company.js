@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       phone: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       function: {
         type: Sequelize.STRING
@@ -34,12 +34,6 @@ module.exports = {
       },
       isClosed: {
         type: Sequelize.BOOLEAN
-      },
-      updatedAt: {
-        type: Sequelize.DATE
-      },
-      createdAt: {
-        type: Sequelize.DATE
       },
       reasonClosed: {
         type: Sequelize.STRING
