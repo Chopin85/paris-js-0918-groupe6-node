@@ -5,9 +5,9 @@ const Router = express.Router();
 const models = require('../models');
 
 Router.put('/', (req, res) => {
-  const { MissionId, TraineeId } = req.body;
+  const { missionId, traineeId } = req.body;
   models.Applications.findOne({
-    where: { TraineeId, MissionId, statusAppli: true }
+    where: { TraineeId: traineeId, MissionId: missionId, statusAppli: true }
   }).then(applicationFound => {
     if (applicationFound) {
       applicationFound.update({
@@ -26,15 +26,15 @@ Router.get('/', (req, res) => {
 
 Router.post('/', (req, res) => {
   // get id_user and id_mission
-  const { MissionId, TraineeId } = req.body;
+  const { missionId, traineeId } = req.body;
   models.Applications.findOne({
-    where: { TraineeId, MissionId }
+    where: { TraineeId: traineeId, MissionId: missionId }
   }).then(applicationFound => {
     if (!applicationFound) {
       const applicationForm = new models.Applications({
         statusAppli: true,
-        MissionId,
-        TraineeId
+        MissionId: missionId,
+        TraineeId: traineeId
       });
       applicationForm.save();
       res.status(200).json({ messga: 'application created' });
