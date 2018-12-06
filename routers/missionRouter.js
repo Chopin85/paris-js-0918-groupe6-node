@@ -20,8 +20,42 @@ missionRouter
     res.end('fin post');
   })
   .get((req, res) => {
-    models.Missions.findAll().then(mf => res.send(mf));
+    models.Missions.findAll().then(mf =>
+      mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission Men' })
+    );
   });
+
+missionRouter.route('/:titlemission');
+// .get((req, res) => {
+//   console.log(req.query);
+//   models.Missions.findOne({
+//     titleMission: req.query.titleMission
+//     // town: req.q
+//     // where: { titleMission: req.params },
+//     // attributes: ['titleMission']
+//   }).then(mf => res.send(mf));
+// });
+
+// .get((req, res) => {
+//   let query;
+
+//   if (req.params.titleMission) {
+//     console.log(req.params);
+//     query = models.Missions.findAll({
+//       include: [{ titleMission: req.params.titleMission }]
+//     });
+//   } else {
+//     query = models.Missions.findAll();
+//   }
+//   return query.then(mf => res.json(mf));
+// });
+
+// .get((req, res) => {
+//   // let query;
+//   if (req.params.titleMission) {
+//     connection.query('SELECT * FROM Missions Where titleMission = req.params.titleMission');
+//   }
+// });
 
 missionRouter
   .route('/:id(\\d+)')
