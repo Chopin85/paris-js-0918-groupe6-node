@@ -21,7 +21,18 @@ Router.put('/', (req, res) => {
   });
 });
 Router.get('/', (req, res) => {
-  res.status(200).json({ message: 'hello to my world' });
+  // const { traineeId } = req.body;
+  const traineeId = 1;
+
+  models.Applications.findAll({
+    where: { TraineeId: traineeId }
+  }).then(applicationFound => {
+    if (applicationFound) {
+      res.status(200).json(applicationFound);
+    } else {
+      res.status(404).json({ message: 'no application ' });
+    }
+  });
 });
 
 Router.post('/', (req, res) => {
