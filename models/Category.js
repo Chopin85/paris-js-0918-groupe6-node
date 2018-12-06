@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Category = sequelize.define(
     'Category',
@@ -9,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+
   Category.associate = function(models) {
     Category.belongsTo(models.Trainee);
     Category.belongsTo(models.Company);
-    // associations can be defined here
   };
   return Category;
 };

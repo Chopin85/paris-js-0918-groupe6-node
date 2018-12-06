@@ -21,8 +21,8 @@ Router.post('/', (req, res) => {
       if (!applicationFound) {
         const applicationForm = new models.Applications({
           statusAppli: true,
-          MissionId: 1,
-          TraineeId: 1
+          MissionId,
+          TraineeId
         });
         applicationForm.save();
         res.status(200).json({ messga: 'application created' });
