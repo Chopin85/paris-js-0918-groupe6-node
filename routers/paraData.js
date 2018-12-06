@@ -3,8 +3,8 @@ const models = require('../models');
 
 const paraData = express.Router();
 
-paraData.route('/').get((req, res) => {
-  models.levelstudies.findAll().then(al => res.send(al));
+paraData.route('/levelstudies').get((req, res) => {
+  models.LevelStudies.findAll().then(al => res.send(al));
 });
 
 module.exports = paraData;
