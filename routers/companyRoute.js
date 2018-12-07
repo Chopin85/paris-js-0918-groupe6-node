@@ -8,13 +8,7 @@ Router.post('/', (req, res) => {
   // if not required but not write null (add trim for checking lenght) -- IMPORTANT
   const { companyName, lastnameContact, firstnameContact, email, phone, password } = req.body;
   if (lastnameContact == null || firstnameContact == null || email == null || password == null) {
-    res.json({
-      openDialog: false,
-      title: 'missing parameters',
-      content: 'Veuillez remplir tous les champs',
-      button: 'ok'
-    });
-    // use this res.status(400).json({message:missing parametres});
+    res.status(400).json({ message: 'missing parametres' });
   } else {
     models.Company.findOne({
       attributes: ['email'],
@@ -32,23 +26,9 @@ Router.post('/', (req, res) => {
         });
         console.log(req.body);
         newcompany.save();
-        res.json({
-          openDialog: true,
-          title: 'user created',
-          content: 'Félicitations, votre compte a été créé',
-          button: 'suivant'
-        });
-        // findOne after save (last id created)
-        // return id to the frontend
-        // use this res.status(200).json({message:user created});
+        res.status(200).json({ message: 'user created' });
       } else {
-        res.json({
-          openDialog: true,
-          title: 'user already exists',
-          content: 'Cette adresse mail est déjà enregistrée',
-          button: 'se connecter'
-        });
-        // use this res.status(401).json({message:user already exists});
+        res.status(401).json({ message: 'user already exists' });
       }
     });
   }
@@ -57,45 +37,22 @@ Router.post('/', (req, res) => {
 Router.route('/login').post((req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
-    res.json({
-      openDialog: false,
-      title: 'missing parameters',
-      content: 'Veuillez remplir tous les champs',
-      button: 'ok'
-    });
+    res.status(401).json({ message: 'missing parameters' });
   } else {
     models.Company.findOne({
-      attributes: ['email', 'password', 'firstnameContact'],
+      attributes: ['email', 'password', 'id'],
       where: { email }
     }).then(companyFound => {
       console.log(companyFound);
       // res.send(200);
       if (companyFound != null) {
         if (companyFound.email === email && companyFound.password === password) {
-          res.json({
-            openDialog: true,
-            title: 'user connected',
-            content: `Bonjour , ${companyFound.firstnameContact}`,
-            button: 'suivant'
-          });
-          // return code 200 and return id user
+          res.status(200).json({ message: companyFound.id });
         } else if (companyFound.email === email && companyFound.password !== password) {
-          res.json({
-            openDialog: true,
-            title: 'password wrong',
-            content: 'password wrong',
-            button: 'suivant'
-          });
-          // return 403
+          res.status(403).json({ message: 'password wrong' });
         }
       } else {
-        res.json({
-          openDialog: true,
-          title: 'user does not exist ',
-          content: 'user does not exist',
-          button: 'suivant'
-        });
-        // return 404
+        res.status(404).json({ message: 'user does not exist' });
       }
     });
   }

@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
       isActived: DataTypes.BOOLEAN,
       town: DataTypes.STRING,
       isFull: DataTypes.BOOLEAN,
-      updateAt: DataTypes.DATE,
       intro: DataTypes.STRING,
       pictures: DataTypes.STRING
     },
@@ -30,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     Missions.belongsToMany(
       models.Trainee,
       { through: 'Applications' }
-
       // foreignKey: {
       //   allowNull: false
       // }

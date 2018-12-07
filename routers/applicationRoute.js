@@ -22,10 +22,11 @@ Router.put('/', (req, res) => {
 });
 Router.get('/', (req, res) => {
   // const { traineeId } = req.body;
-  const traineeId = 1;
+  const traineeId = 2;
 
   models.Applications.findAll({
-    where: { TraineeId: traineeId }
+    // where: { TraineeId: traineeId },
+    include: [{ model: models.Missions }]
   }).then(applicationFound => {
     if (applicationFound) {
       res.status(200).json(applicationFound);

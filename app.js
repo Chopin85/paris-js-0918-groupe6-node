@@ -24,6 +24,7 @@ app.use('/trainee', traineeRoute);
 app.use('/company', companyRoute);
 app.use('/paradata', paraData);
 app.use('/application', applicationRoute);
+app.use('/general', paraData);
 
 /* Server Listening */
 

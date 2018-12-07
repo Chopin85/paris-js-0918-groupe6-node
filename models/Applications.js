@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   Applications.associate = models => {
     // associations can be defined here
-    Applications.belongsTo(models.Missions);
-    Applications.belongsTo(models.Trainee);
+    Applications.belongsTo(models.Missions, { constraints: true });
+    Applications.belongsTo(models.Trainee, { constraints: true });
   };
   return Applications;
 };
