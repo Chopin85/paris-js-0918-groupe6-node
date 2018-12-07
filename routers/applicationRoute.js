@@ -26,7 +26,7 @@ Router.get('/', (req, res) => {
 
   models.Applications.findAll({
     // where: { TraineeId: traineeId },
-    include: [{ model: models.Missions }]
+    include: [{ model: models.Missions, include: [{ model: models.Company }] }]
   }).then(applicationFound => {
     if (applicationFound) {
       res.status(200).json(applicationFound);
@@ -48,8 +48,10 @@ Router.post('/', (req, res) => {
         MissionId: missionId,
         TraineeId: traineeId
       });
+
       applicationForm.save();
-      res.status(200).json({ messga: 'application created' });
+
+      res.status(200).json({ Application: applicationForm.dataValues });
     } else {
       res.status(404).json({ error: 'user already candidate' });
     }

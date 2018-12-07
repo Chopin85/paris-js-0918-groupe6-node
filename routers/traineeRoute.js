@@ -27,6 +27,10 @@ traineeRoute.post('/', (req, res) => {
           isActived: true
         });
         newTrainee.save();
+        models.Trainee.findOne({
+          order: [['id', 'DESC']]
+        }).then(lastTrainee => console.log(lastTrainee));
+
         res.json({
           openDialog: true,
           title: 'user created',
