@@ -24,9 +24,7 @@ Router.post('/', (req, res) => {
           password,
           isActived: true
         });
-        console.log(req.body);
-        newcompany.save();
-        res.status(200).json({ message: 'user created' });
+        newcompany.save().then(result => res.status(200).json(result));
       } else {
         res.status(401).json({ message: 'user already exists' });
       }
