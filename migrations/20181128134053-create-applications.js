@@ -1,7 +1,7 @@
-'use strict';
+
+
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Applications', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Applications', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       statusAppli: {
-        type: Sequelize.STRING
+        type: Sequelize.BOOLEAN
       },
       dateAppli: {
         type: Sequelize.DATE
@@ -28,9 +28,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Applications');
-  }
+    }),
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Applications')
 };

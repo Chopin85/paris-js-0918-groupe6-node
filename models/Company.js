@@ -5,14 +5,12 @@ module.exports = (sequelize, DataTypes) => {
       companyName: DataTypes.STRING,
       lastnameContact: DataTypes.STRING,
       firstnameContact: DataTypes.STRING,
-      phone: DataTypes.INTEGER,
+      phone: DataTypes.STRING,
       function: DataTypes.STRING,
       password: DataTypes.STRING,
       email: DataTypes.STRING,
       isActived: DataTypes.BOOLEAN,
       isClosed: DataTypes.BOOLEAN,
-      updatedAt: DataTypes.DATE,
-      createdAt: DataTypes.DATE,
       reasonClosed: DataTypes.STRING,
       pictures: DataTypes.STRING
     },
@@ -20,7 +18,11 @@ module.exports = (sequelize, DataTypes) => {
   );
   Company.associate = models => {
     // associations can be defined here
-    Company.hasMany(models.Missions);
+    Company.hasMany(models.Missions, {
+      // foreignKey: {
+      //   allowNull: false
+      // }
+    });
   };
   return Company;
 };
