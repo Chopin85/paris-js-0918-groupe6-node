@@ -1,4 +1,6 @@
 const express = require('express');
+const Sequelize = require('sequelize');
+
 const models = require('../models');
 
 const missionRouter = express.Router();
@@ -19,13 +21,36 @@ missionRouter
     newForm.save();
     res.end('fin post');
   })
+
   .get((req, res) => {
-    models.Missions.findAll().then(mf =>
-      mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission Men' })
-    );
+    models.Missions.findAll({
+      where: {
+        titleMission: { $like: '%' + req.query.search + '%' },
+        town: { $like: '%' + req.query.town + '%' }
+      }
+    }).then(mf => (mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission Men' })));
   });
 
-missionRouter.route('/:titlemission');
+// .get((req, res) => {
+//   const { search, town } = req.query;
+//   searchMission = connection.Missions(`%${search}%`);
+//   townMission = connection.Missions(`%${town}%`);
+//   const sql = `
+//     SELECT * FROM Missions
+//     WHERE
+//     ${search ? 'AND titleMission LIKE' + searchMission : ''}
+//     ${town ? 'AND town LIKE' + townMission : ''}
+//   `;
+//   connection.query(sql, (err, res) => {
+//     if (err) {
+//       res.status(500).send(`Erreur : ${err}`);
+//     } else {
+//       res.json(res);
+//     }
+//   });
+// });
+
+//missionRouter.route('/:titlemission');
 // .get((req, res) => {
 //   console.log(req.query);
 //   models.Missions.findOne({
