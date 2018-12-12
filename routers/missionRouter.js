@@ -14,6 +14,7 @@ missionRouter
       town: req.body.town,
       intro: req.body.intro,
       description: req.body.description,
+      levelStudyId: req.body.levelStudyId,
       pictures: 'test',
       CompanyId: 1
     });
@@ -38,7 +39,16 @@ missionRouter
   })
 
   .put((req, res) => {
-    const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
+    const {
+      titleMission,
+      dateStart,
+      dateEnd,
+      town,
+      intro,
+      description,
+      pictures,
+      levelStudyId
+    } = req.body;
     models.Missions.find({
       where: {
         id: req.params.id
@@ -52,7 +62,8 @@ missionRouter
           town,
           intro,
           description,
-          pictures
+          pictures,
+          levelStudyId
         }).then(mf => {
           res.send(mf);
         });
