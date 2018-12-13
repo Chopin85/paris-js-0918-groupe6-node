@@ -24,7 +24,6 @@ Router.post('/', (req, res) => {
           password,
           isActived: true
         });
-        console.log(req.body);
         newcompany.save();
         res.status(200).json({ message: 'user created' });
       } else {
@@ -37,7 +36,7 @@ Router.post('/', (req, res) => {
 Router.route('/login').post((req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
-    res.status(401).json({ message: 'missing parameters' });
+    res.status(400).json({ message: 'missing parameters' });
   } else {
     models.Company.findOne({
       attributes: ['email', 'password', 'id'],
@@ -49,7 +48,7 @@ Router.route('/login').post((req, res) => {
         if (companyFound.email === email && companyFound.password === password) {
           res.status(200).json({ message: companyFound.id });
         } else if (companyFound.email === email && companyFound.password !== password) {
-          res.status(403).json({ message: 'password wrong' });
+          res.status(401).json({ message: 'password wrong' });
         }
       } else {
         res.status(404).json({ message: 'user does not exist' });
