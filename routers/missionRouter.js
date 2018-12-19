@@ -63,7 +63,6 @@ missionRouter
           })
     );
   })
-
   .put((req, res) => {
     const {
       titleMission,

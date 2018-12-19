@@ -41,7 +41,31 @@ Router.post('/', (req, res) => {
     });
   }
 });
-
+Router.get('/:id/application', (req, res) => {
+  models.Applications.findAll({
+    include: [
+      {
+        model: models.Missions,
+        where: {
+          CompanyId: req.params.id
+        },
+        include: [
+          {
+            model: models.Trainee
+          }
+        ]
+      }
+    ]
+  }).then(applicationFound => {
+    if (applicationFound) {
+      res.status(200).send(applicationFound);
+    } else {
+      res.status(404).json({
+        message: 'no application '
+      });
+    }
+  });
+});
 Router.route('/login').post((req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {

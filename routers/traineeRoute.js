@@ -40,6 +40,32 @@ traineeRoute.post('/', (req, res) => {
     });
   }
 });
+traineeRoute.get('/:id/application', (req, res) => {
+  models.Applications.findAll({
+    where: {
+      TraineeId: req.params.id
+    },
+    include: [
+      {
+        model: models.Missions,
+        include: [
+          {
+            model: models.Company
+          }
+        ]
+      }
+    ]
+  }).then(applicationFound => {
+    if (applicationFound) {
+      res.status(200).send(applicationFound);
+    } else {
+      res.status(404).json({
+        message: 'no application '
+      });
+    }
+  });
+});
+
 // post('/login')
 // 1- le mail est-il dans la base de données?
 // 2- le mot de passe correspond t-il?
