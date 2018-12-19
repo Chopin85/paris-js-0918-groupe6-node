@@ -88,7 +88,8 @@ missionRouter
           town,
           intro,
           description,
-          pictures
+          pictures,
+          levelStudyId
         }).then(data => {
           res.send(data);
         });
