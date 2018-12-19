@@ -72,8 +72,10 @@ Router.post('/', (req, res) => {
         MissionId: missionId,
         TraineeId: traineeId
       });
+
       applicationForm.save();
-      res.status(200).send(applicationForm);
+
+      res.status(200).json({ Application: applicationForm.dataValues });
     } else {
       res.status(404).json({
         error: 'user already candidate'

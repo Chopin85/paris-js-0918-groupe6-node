@@ -7,13 +7,10 @@ const models = require('../models');
 traineeRoute.post('/', (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   if (firstname == null || lastname == null || email == null || password == null) {
-    res.json({
-      openDialog: false,
-      title: 'missing parameters',
-      content: 'Veuillez remplir tous les champs',
-      button: 'ok'
-    });
+    res.status(412).json({ message: 'champs requis' }); // message automatique via le input html 'required'
+    // 412 - Préconditions envoyées par la requête non vérifiées
   } else {
+    // requête sequelize : select email from trainee where email == req.body.email
     models.Trainee.findOne({
       attributes: ['email'],
       where: { email }
@@ -27,19 +24,9 @@ traineeRoute.post('/', (req, res) => {
           isActived: true
         });
         newTrainee.save();
-        res.json({
-          openDialog: true,
-          title: 'user created',
-          content: 'Félicitations, votre compte a été créé',
-          button: 'suivant'
-        });
+        res.status(200).json({ message: 'user created' });
       } else {
-        res.json({
-          openDialog: true,
-          title: 'user already exists',
-          content: 'Cette adresse mail est déjà enregistrée',
-          button: 'se connecter'
-        });
+        res.status(400).json({ message: 'user already exist' });
       }
     });
   }
@@ -50,7 +37,7 @@ traineeRoute.post('/', (req, res) => {
 traineeRoute.post('/login', (req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
-    res.send('champs requis'); // message automatique via le input html 'required'
+    res.json({ message: 'champs requis' }); // message automatique via le input html 'required'
   } else {
     models.Trainee.findOne({
       where: { email }
@@ -59,29 +46,13 @@ traineeRoute.post('/login', (req, res) => {
       .then(traineeFound => {
         // traineeFound --> objet qui contient les infos demandées
         if (!traineeFound) {
-          // si l'objet ne contien rien
-          res.json({
-            openDialog: true,
-            title: `user doesn't exists`,
-            content: `Cette adresse mail n'est pas reconnue, essayer de nouveau ou bien crééz votre compte :)`,
-            button: `Créer un compte`
-          });
+          // si l'objet ne contient rien
+          res.status(401).json({ message: 'user not found' });
         } else if (traineeFound && traineeFound.password === password) {
-          res.json({
-            passwordVerified: true,
-            openDialog: true,
-            title: `Succes !`,
-            content: `vous allez être redirigé vers votre page`,
-            button: `Fermer`
-          });
+          // condition incomplète, ajouter les tokens dès que possible et crypter le mdp
+          res.status(200).json({ message: 'user connected' });
         } else {
-          res.json({
-            passwordVerified: false,
-            openDialog: true,
-            title: `false password`,
-            content: `erreur lors de la saisie du mot de passe`,
-            button: `Fermer`
-          });
+          res.status(404).json({ message: 'false password' });
         }
       });
   }

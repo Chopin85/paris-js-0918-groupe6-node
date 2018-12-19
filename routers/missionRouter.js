@@ -1,4 +1,5 @@
 const express = require('express');
+
 const models = require('../models');
 
 const missionRouter = express.Router();
@@ -14,6 +15,7 @@ missionRouter
       town: req.body.town,
       intro: req.body.intro,
       description: req.body.description,
+      levelStudyId: req.body.levelStudyId,
       pictures: 'test',
       CompanyId: 1
     });
@@ -21,8 +23,24 @@ missionRouter
 
     // res.end('fin post');
   })
+
   .get((req, res) => {
-    models.Missions.findAll().then(mf => res.send(mf));
+    models.Missions.findAll({
+      where: {
+        titleMission: {
+          $like: `%${req.query.search}%`
+        },
+        town: {
+          $like: `%${req.query.town}%`
+        }
+      }
+    }).then(mf =>
+      mf
+        ? res.json(mf)
+        : res.status(404).json({
+            error: 'Pas de Mission Men'
+          })
+    );
   });
 
 missionRouter
@@ -47,7 +65,16 @@ missionRouter
   })
 
   .put((req, res) => {
-    const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
+    const {
+      titleMission,
+      dateStart,
+      dateEnd,
+      town,
+      intro,
+      description,
+      pictures,
+      levelStudyId
+    } = req.body;
     models.Missions.find({
       where: {
         id: req.params.id
