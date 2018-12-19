@@ -58,4 +58,42 @@ traineeRoute.post('/login', (req, res) => {
   }
 });
 
+traineeRoute.post('/profile', (req, res) => {
+  const { id } = req.body;
+  models.Trainee.findOne({
+    where: { id }
+  })
+    // select * from trainee where email = req.body.email
+    .then(traineeFound => {
+      if (traineeFound) {
+        console.log(traineeFound);
+        res.status(200).json(traineeFound);
+      } else {
+        console.log(traineeFound);
+        res.status(401).json({ message: 'user not found' });
+      }
+    });
+});
+
+traineeRoute.put('/profile', (req, res) => {
+  const { id, lastmane, firstname, phone, address, town, postalCode } = req.body;
+  models.Trainee.findOne({
+    where: { id }
+  })
+    // select * from trainee where email = req.body.email
+    .then(traineeFound => {
+      if (traineeFound) {
+        console.log(traineeFound);
+        traineeFound.update(
+          { lastmane, firstname, phone, address, town, postalCode },
+          { id: [req.body.id] }
+        );
+        res.status(200).json(traineeFound);
+      } else {
+        console.log(traineeFound);
+        res.status(401).json({ message: 'user not found' });
+      }
+    });
+});
+
 module.exports = traineeRoute;
