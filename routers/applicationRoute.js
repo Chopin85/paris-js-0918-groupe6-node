@@ -7,16 +7,24 @@ const models = require('../models');
 Router.put('/', (req, res) => {
   const { missionId, traineeId } = req.body;
   models.Applications.findOne({
-    where: { TraineeId: traineeId, MissionId: missionId, statusAppli: true }
+    where: {
+      TraineeId: traineeId,
+      MissionId: missionId,
+      statusAppli: true
+    }
   }).then(applicationFound => {
     if (applicationFound) {
       applicationFound.update({
         statusAppli: false
       });
       // applicationFound.save();
-      res.status(201).json({ messga: 'application deleted' });
+      res.status(201).json({
+        messga: 'application deleted'
+      });
     } else {
-      res.status(404).json({ error: 'application already deleted ' });
+      res.status(404).json({
+        error: 'application already deleted '
+      });
     }
   });
 });
@@ -25,13 +33,26 @@ Router.get('/', (req, res) => {
   const traineeId = 2;
 
   models.Applications.findAll({
-    // where: { TraineeId: traineeId },
-    include: [{ model: models.Missions }]
+    where: {
+      TraineeId: traineeId
+    },
+    include: [
+      {
+        model: models.Missions,
+        include: [
+          {
+            model: models.Company
+          }
+        ]
+      }
+    ]
   }).then(applicationFound => {
     if (applicationFound) {
       res.status(200).json(applicationFound);
     } else {
-      res.status(404).json({ message: 'no application ' });
+      res.status(404).json({
+        message: 'no application '
+      });
     }
   });
 });
@@ -40,7 +61,10 @@ Router.post('/', (req, res) => {
   // get id_user and id_mission
   const { missionId, traineeId } = req.body;
   models.Applications.findOne({
-    where: { TraineeId: traineeId, MissionId: missionId }
+    where: {
+      TraineeId: traineeId,
+      MissionId: missionId
+    }
   }).then(applicationFound => {
     if (!applicationFound) {
       const applicationForm = new models.Applications({
@@ -49,9 +73,11 @@ Router.post('/', (req, res) => {
         TraineeId: traineeId
       });
       applicationForm.save();
-      res.status(200).json({ messga: 'application created' });
+      res.status(200).send(applicationForm);
     } else {
-      res.status(404).json({ error: 'user already candidate' });
+      res.status(404).json({
+        error: 'user already candidate'
+      });
     }
   });
 });

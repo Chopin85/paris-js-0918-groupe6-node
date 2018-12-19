@@ -16,9 +16,10 @@ missionRouter
       description: req.body.description,
       pictures: 'test',
       CompanyId: 1
-    });
-    newForm.save();
-    res.end('fin post');
+    })
+    newForm.save().then(data =>res.status(200).send(data.dataValues));
+
+    // res.end('fin post');
   })
   .get((req, res) => {
     models.Missions.findAll().then(mf => res.send(mf));
@@ -33,12 +34,24 @@ missionRouter
 
   .get((req, res) => {
     models.Missions.find({
-      where: { id: req.params.id }
-    }).then(mf => (mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission Men' })));
+      where: {
+        id: req.params.id
+      }
+    }).then(mf => (mf ? res.json(mf) : res.status(404).json({
+      error: 'Pas de Mission Men'
+    })));
   })
 
   .put((req, res) => {
-    const { titleMission, dateStart, dateEnd, town, intro, description, pictures } = req.body;
+    const {
+      titleMission,
+      dateStart,
+      dateEnd,
+      town,
+      intro,
+      description,
+      pictures
+    } = req.body;
     models.Missions.find({
       where: {
         id: req.params.id
@@ -57,7 +70,9 @@ missionRouter
           res.send(mf);
         });
       } else {
-        res.status(404).json({ error: 'pas de Mission' });
+        res.status(404).json({
+          error: 'pas de Mission'
+        });
       }
     });
   })
@@ -67,7 +82,9 @@ missionRouter
       where: {
         id: req.params.id
       }
-    }).then(mf => (mf ? res.json(mf) : res.status(404).json({ error: 'Pas de Mission' })));
+    }).then(mf => (mf ? res.json(mf) : res.status(404).json({
+      error: 'Pas de Mission'
+    })));
   });
 
 // app.use('/mission', router);
