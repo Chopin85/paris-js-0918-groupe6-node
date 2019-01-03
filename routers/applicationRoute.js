@@ -28,22 +28,43 @@ Router.put('/', (req, res) => {
     }
   });
 });
-Router.get('/', (req, res) => {
-  // const { traineeId } = req.body;
-  const traineeId = 2;
+Router.get('/:id/mytrainee', (req, res) => {
+  //const { companyId } = req.params;
+  //const companyId = 1;
 
   models.Applications.findAll({
-    where: {
-      TraineeId: traineeId
-    },
     include: [
       {
         model: models.Missions,
-        include: [
-          {
-            model: models.Company
-          }
-        ]
+        where: {
+          companyId: req.params.id
+        },
+        include: [{ model: models.Trainee }]
+      }
+    ]
+  }).then(applicationFound => {
+    if (applicationFound) {
+      res.status(200).json(applicationFound);
+    } else {
+      res.status(404).json({
+        message: 'no application '
+      });
+    }
+  });
+});
+
+// Route Company afficher les liens entrre trainee et mission
+Router.get('/company', (req, res) => {
+  // const { traineeId } = req.body;
+  const missionId = 1;
+
+  models.Applications.findAll({
+    where: {
+      MissionId: missionId
+    },
+    include: [
+      {
+        model: models.Trainee
       }
     ]
   }).then(applicationFound => {

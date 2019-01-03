@@ -41,6 +41,25 @@ Router.post('/', (req, res) => {
     });
   }
 });
+Router.get('/:id', (req, res) => {
+  models.Company.find({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: models.Missions
+      }
+    ]
+  }).then(f => {
+    if (f) {
+      res.status(200).send(f);
+    } else {
+      res.status(400).json({ message: "pas d'existance" });
+    }
+  });
+});
+
 Router.get('/:id/application', (req, res) => {
   models.Applications.findAll({
     include: [

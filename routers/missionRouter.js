@@ -17,8 +17,9 @@ missionRouter
       description: req.body.description,
       levelStudyId: req.body.levelStudyId,
       pictures: 'test',
-      CompanyId: 1
+      CompanyId: req.body.companyId
     });
+    console.log(newForm, req.body.levelStudyId);
     newForm.save().then(data => res.status(200).send(data.dataValues));
 
     // res.end('fin post');
@@ -92,7 +93,8 @@ missionRouter
           town,
           intro,
           description,
-          pictures
+          pictures,
+          levelStudyId
         }).then(data => {
           res.send(data);
         });
