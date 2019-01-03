@@ -12,7 +12,7 @@ module.exports = {
                         sit amet, consectetur, adipisci velit..."Il n’y a personne
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
-
+          town: 'Paris',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -25,7 +25,7 @@ module.exports = {
                         sit amet, consectetur, adipisci velit..."Il n’y a personne
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
-
+          town: 'Paris',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -38,7 +38,7 @@ module.exports = {
                         sit amet, consectetur, adipisci velit..."Il n’y a personne
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
-
+          town: 'Paris',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -51,7 +51,7 @@ module.exports = {
                         sit amet, consectetur, adipisci velit..."Il n’y a personne
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
-
+          town: 'Paris',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -64,7 +64,7 @@ module.exports = {
                         sit amet, consectetur, adipisci velit..."Il n’y a personne
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
-
+          town: 'Paris',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -77,7 +77,7 @@ module.exports = {
                         sit amet, consectetur, adipisci velit..."Il n’y a personne
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
-
+          town: 'Paris',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -90,7 +90,7 @@ module.exports = {
                         sit amet, consectetur, adipisci velit..."Il n’y a personne
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
-
+          town: 'Paris',
           createdAt: new Date(),
           updatedAt: new Date()
         }
