@@ -34,7 +34,12 @@ missionRouter
         town: {
           $like: `%${req.query.town}%`
         }
-      }
+      },
+      include: [
+        {
+          model: models.Company
+        }
+      ]
     }).then(mf =>
       mf
         ? res.json(mf)
