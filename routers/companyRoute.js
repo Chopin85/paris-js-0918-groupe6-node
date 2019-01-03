@@ -8,11 +8,15 @@ Router.post('/', (req, res) => {
   // if not required but not write null (add trim for checking lenght) -- IMPORTANT
   const { companyName, lastnameContact, firstnameContact, email, phone, password } = req.body;
   if (lastnameContact == null || firstnameContact == null || email == null || password == null) {
-    res.status(400).json({ message: 'missing parametres' });
+    res.status(400).json({
+      message: 'missing parametres'
+    });
   } else {
     models.Company.findOne({
       attributes: ['email'],
-      where: { email }
+      where: {
+        email
+      }
     }).then(companyFound => {
       if (!companyFound) {
         const newcompany = new models.Company({
@@ -24,34 +28,92 @@ Router.post('/', (req, res) => {
           password,
           isActived: true
         });
-        newcompany.save();
-        res.status(200).json({ message: 'user created' });
+        newcompany.save().then(company => {
+          res.status(200).json({
+            id: company.dataValues.id
+          });
+        });
       } else {
-        res.status(401).json({ message: 'user already exists' });
+        res.status(401).json({
+          message: 'user already exists'
+        });
       }
     });
   }
 });
+Router.get('/:id', (req, res) => {
+  models.Company.find({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: models.Missions
+      }
+    ]
+  }).then(f => {
+    if (f) {
+      res.status(200).send(f);
+    } else {
+      res.status(400).json({ message: "pas d'existance" });
+    }
+  });
+});
 
+Router.get('/:id/application', (req, res) => {
+  models.Applications.findAll({
+    include: [
+      {
+        model: models.Missions,
+        where: {
+          CompanyId: req.params.id
+        },
+        include: [
+          {
+            model: models.Trainee
+          }
+        ]
+      }
+    ]
+  }).then(applicationFound => {
+    if (applicationFound) {
+      res.status(200).send(applicationFound);
+    } else {
+      res.status(404).json({
+        message: 'no application '
+      });
+    }
+  });
+});
 Router.route('/login').post((req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
-    res.status(400).json({ message: 'missing parameters' });
+    res.status(400).json({
+      message: 'missing parameters'
+    });
   } else {
     models.Company.findOne({
       attributes: ['email', 'password', 'id'],
-      where: { email }
+      where: {
+        email
+      }
     }).then(companyFound => {
       console.log(companyFound);
       // res.send(200);
       if (companyFound != null) {
         if (companyFound.email === email && companyFound.password === password) {
-          res.status(200).json({ message: companyFound.id });
+          res.status(200).json({
+            id: companyFound.id
+          });
         } else if (companyFound.email === email && companyFound.password !== password) {
-          res.status(401).json({ message: 'password wrong' });
+          res.status(401).json({
+            message: 'password wrong'
+          });
         }
       } else {
-        res.status(404).json({ message: 'user does not exist' });
+        res.status(404).json({
+          message: 'user does not exist'
+        });
       }
     });
   }
