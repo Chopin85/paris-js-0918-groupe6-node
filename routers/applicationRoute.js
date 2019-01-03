@@ -81,6 +81,8 @@ Router.get('/company', (req, res) => {
 Router.post('/', (req, res) => {
   // get id_user and id_mission
   const { missionId, traineeId } = req.body;
+  console.log(traineeId);
+
   models.Applications.findOne({
     where: {
       TraineeId: traineeId,
