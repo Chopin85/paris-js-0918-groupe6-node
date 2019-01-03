@@ -26,6 +26,12 @@ missionRouter
   })
 
   .get((req, res) => {
+    models.Missions.findAll({}).then(f =>
+      f ? res.status(200).json(f) : res.status(400).json({ error: 'pas de Missions' })
+    );
+  })
+
+  .get((req, res) => {
     models.Missions.findAll({
       where: {
         titleMission: {
