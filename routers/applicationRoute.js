@@ -4,6 +4,7 @@ const Router = express.Router();
 
 const models = require('../models');
 
+// Modification de
 Router.put('/', (req, res) => {
   const { missionId, traineeId } = req.body;
   models.Applications.findOne({
