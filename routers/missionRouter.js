@@ -17,7 +17,7 @@ missionRouter
       description: req.body.description,
       LevelStudyId: req.body.LevelStudyId,
       pictures: 'test',
-      CompanyId: req.body.companyId
+      CompanyId: req.body.CompanyId
     });
     console.log(newForm, req.body.levelStudyId);
     newForm.save().then(data => res.status(200).send(data.dataValues));
@@ -78,7 +78,7 @@ missionRouter
       intro,
       description,
       pictures,
-      levelStudyId
+      LevelStudyId
     } = req.body;
     models.Missions.find({
       where: {
@@ -94,7 +94,7 @@ missionRouter
           intro,
           description,
           pictures,
-          levelStudyId
+          LevelStudyId
         }).then(data => {
           res.send(data);
         });
