@@ -60,7 +60,11 @@ Router.get('/:id/mytrainee', (req, res) => {
           ]
         }).then(applicationFound => {
           if (applicationFound.length !== 0) {
-            data.push({ mission_id: element.dataValues.id, data_Applications: applicationFound });
+            data.push({
+              mission_id: element.dataValues.id,
+              titleMission: element.dataValues.titleMission,
+              dataApplications: applicationFound
+            });
           }
         });
       });
