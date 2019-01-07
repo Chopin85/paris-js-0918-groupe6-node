@@ -76,12 +76,7 @@ Router.get('/:id/mytrainee', (req, res) => {
     }
   });
 });
-<<<<<<< HEAD
-
-// Route Company afficher les liens entre trainee et mission
-=======
 // Route Company afficher les liens entrre trainee et mission
->>>>>>> 49981c621c0f70b89da023a35a69299c9b64bb5b
 Router.get('/company', (req, res) => {
   // const { traineeId } = req.body;
   const missionId = 1;
