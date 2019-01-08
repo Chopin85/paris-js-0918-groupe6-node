@@ -85,6 +85,7 @@ Router.get('/:id/application', (req, res) => {
     }
   });
 });
+
 Router.route('/login').post((req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
