@@ -1,6 +1,7 @@
 const express = require('express');
 
 const traineeRoute = express.Router();
+const multer = require('multer');
 const models = require('../models');
 
 // post('/')
@@ -102,7 +103,7 @@ traineeRoute.post('/login', (req, res) => {
       });
   }
 });
-
+// Route for GET profile Trainee
 traineeRoute.post('/profile', (req, res) => {
   const { id } = req.body;
   models.Trainee.findOne({
@@ -119,7 +120,7 @@ traineeRoute.post('/profile', (req, res) => {
       }
     });
 });
-
+// Route for UPDATE profile Trainee
 traineeRoute.put('/profile', (req, res) => {
   const { id, lastmane, firstname, phone, address, town, postalCode } = req.body;
   models.Trainee.findOne({
@@ -139,6 +140,38 @@ traineeRoute.put('/profile', (req, res) => {
         res.status(401).json({ message: 'user not found' });
       }
     });
+});
+// Route for UPLOAD photo profile
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/photoProfile');
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 3 } });
+
+traineeRoute.post('/uploadphoto/:id', upload.single('avatar'), function(req, res, next) {
+  console.log(req.params.id);
+  console.log(req.file);
+  const id = req.params.id;
+  models.Trainee.findOne({
+    where: { id }
+  }).then(traineeFound => {
+    if (traineeFound) {
+      console.log(traineeFound);
+      traineeFound.update({ pictures: req.file.path }, { id });
+      res.status(200);
+    } else {
+      console.log(traineeFound);
+      res.status(401).json({ message: 'user not found' });
+    }
+  });
+  // console.log(req.body);
+  res.end();
 });
 
 module.exports = traineeRoute;
