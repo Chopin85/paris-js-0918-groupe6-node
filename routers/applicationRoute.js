@@ -6,7 +6,7 @@ const models = require('../models');
 Router.put('/', (req, res) => {
   const { missionId, traineeId, mode } = req.body;
   switch (mode) {
-    case 'preselect':
+    case 'PRESELCT':
       models.Applications.findOne({
         where: {
           TraineeId: traineeId,
@@ -23,7 +23,7 @@ Router.put('/', (req, res) => {
         }
       });
       break;
-    case 'select':
+    case 'SELECT':
       models.Applications.findOne({
         where: {
           TraineeId: traineeId,
@@ -40,7 +40,7 @@ Router.put('/', (req, res) => {
         }
       });
       break;
-    case 'refuse':
+    case 'REFUSSE':
       models.Applications.findOne({
         where: {
           TraineeId: traineeId,
@@ -59,6 +59,9 @@ Router.put('/', (req, res) => {
       break;
 
     default:
+      res.status(404).json({
+        error: 'Select the mode '
+      });
       break;
   }
 });
@@ -67,48 +70,142 @@ Router.put('/', (req, res) => {
  * return the informations of the trainees
  * that candidate to missions of one company
  */
-Router.get('/:id/mytrainee', (req, res) => {
-  models.Missions.findAll({
-    where: { companyId: req.params.id }
-  }).then(missionsFound => {
-    if (missionsFound) {
-      const data = [];
-      let newPromise = null;
-      missionsFound.map(element => {
-        newPromise = models.Applications.findAll({
-          where: { MissionId: element.dataValues.id },
-          order: ['MissionId'],
-          include: [
-            {
-              model: models.Trainee,
-              attributes: ['firstname', 'pictures', 'address', 'town', 'postalCode'],
+Router.get('/:id/:mode/mytrainee', (req, res) => {
+  const { mode } = req.params;
+  switch (mode) {
+    case 'APPLICATION':
+      models.Missions.findAll({
+        where: { companyId: req.params.id }
+      }).then(missionsFound => {
+        if (missionsFound) {
+          const data = [];
+          let newPromise = null;
+          missionsFound.map(element => {
+            newPromise = models.Applications.findAll({
+              where: { MissionId: element.dataValues.id, statusAppli: true, preselection: null },
+              order: ['MissionId'],
               include: [
                 {
-                  model: models.LevelStudies
-                },
-                {
-                  model: models.Schools
+                  model: models.Trainee,
+                  attributes: ['firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  include: [
+                    {
+                      model: models.LevelStudies
+                    },
+                    {
+                      model: models.Schools
+                    }
+                  ]
                 }
               ]
-            }
-          ]
-        }).then(applicationFound => {
-          if (applicationFound.length !== 0) {
-            data.push({
-              mission_id: element.dataValues.id,
-              titleMission: element.dataValues.titleMission,
-              dataApplications: applicationFound
+            }).then(applicationFound => {
+              if (applicationFound.length !== 0) {
+                data.push({
+                  mission_id: element.dataValues.id,
+                  titleMission: element.dataValues.titleMission,
+                  dataApplications: applicationFound
+                });
+              }
             });
-          }
-        });
+          });
+          Promise.all([newPromise]).then(() =>
+            res.status(200).json({ company_id: req.params.id, data })
+          );
+        } else {
+          res.status(404).json({ error: 'no application ' });
+        }
       });
-      Promise.all([newPromise]).then(() =>
-        res.status(200).json({ company_id: req.params.id, data })
-      );
-    } else {
-      res.status(404).json({ message: 'no application ' });
-    }
-  });
+      break;
+    case 'PRESELECT':
+      models.Missions.findAll({
+        where: { companyId: req.params.id }
+      }).then(missionsFound => {
+        if (missionsFound) {
+          const data = [];
+          let newPromise = null;
+          missionsFound.map(element => {
+            newPromise = models.Applications.findAll({
+              where: { MissionId: element.dataValues.id, statusAppli: true, preselection: true },
+              order: ['MissionId'],
+              include: [
+                {
+                  model: models.Trainee,
+                  attributes: ['firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  include: [
+                    {
+                      model: models.LevelStudies
+                    },
+                    {
+                      model: models.Schools
+                    }
+                  ]
+                }
+              ]
+            }).then(applicationFound => {
+              if (applicationFound.length !== 0) {
+                data.push({
+                  mission_id: element.dataValues.id,
+                  titleMission: element.dataValues.titleMission,
+                  dataApplications: applicationFound
+                });
+              }
+            });
+          });
+          Promise.all([newPromise]).then(() =>
+            res.status(200).json({ company_id: req.params.id, data })
+          );
+        } else {
+          res.status(404).json({ error: 'no application ' });
+        }
+      });
+      break;
+    case 'SELECT':
+      models.Missions.findAll({
+        where: { companyId: req.params.id }
+      }).then(missionsFound => {
+        if (missionsFound) {
+          const data = [];
+          let newPromise = null;
+          missionsFound.map(element => {
+            newPromise = models.Applications.findAll({
+              where: { MissionId: element.dataValues.id, selection: true },
+              order: ['MissionId'],
+              include: [
+                {
+                  model: models.Trainee,
+                  attributes: ['firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  include: [
+                    {
+                      model: models.LevelStudies
+                    },
+                    {
+                      model: models.Schools
+                    }
+                  ]
+                }
+              ]
+            }).then(applicationFound => {
+              if (applicationFound.length !== 0) {
+                data.push({
+                  mission_id: element.dataValues.id,
+                  titleMission: element.dataValues.titleMission,
+                  dataApplications: applicationFound
+                });
+              }
+            });
+          });
+          Promise.all([newPromise]).then(() =>
+            res.status(200).json({ company_id: req.params.id, data })
+          );
+        } else {
+          res.status(404).json({ error: 'no application ' });
+        }
+      });
+      break;
+    default:
+      res.status(404).json({ error: 'select the mode' });
+      break;
+  }
 });
 // Route Company afficher les liens entrre trainee et mission
 Router.get('/company', (req, res) => {
@@ -129,7 +226,7 @@ Router.get('/company', (req, res) => {
       res.status(200).json(applicationFound);
     } else {
       res.status(404).json({
-        message: 'no application '
+        error: 'no application '
       });
     }
   });

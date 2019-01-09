@@ -105,7 +105,13 @@ missionRouter
       }
     });
   })
-
+  // valider ma teem
+  .put('/validate', (req, res) => {
+    const { missionId } = req.body;
+    models.Missions.findAll({
+      where: { companyId: req.params.id, Missionid: missionId }
+    }).the(missionsFound => missionsFound.map(mission =>))
+  })
   .delete((req, res) => {
     models.Missions.destroy({
       where: {
