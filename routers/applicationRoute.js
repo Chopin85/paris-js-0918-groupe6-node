@@ -5,24 +5,9 @@ const models = require('../models');
 
 Router.put('/', (req, res) => {
   const { missionId, traineeId, mode } = req.body;
+  console.log('mode ', mode);
+
   switch (mode) {
-    case 'PRESELCT':
-      models.Applications.findOne({
-        where: {
-          TraineeId: traineeId,
-          MissionId: missionId
-        }
-      }).then(applicationFound => {
-        if (applicationFound) {
-          applicationFound.update({ preselection: true });
-          applicationFound.save().then(result => res.status(200).json(result.dataValues));
-        } else {
-          res.status(404).json({
-            error: 'Student already preselected '
-          });
-        }
-      });
-      break;
     case 'SELECT':
       models.Applications.findOne({
         where: {
@@ -40,7 +25,7 @@ Router.put('/', (req, res) => {
         }
       });
       break;
-    case 'REFUSSE':
+    case 'REFUSE':
       models.Applications.findOne({
         where: {
           TraineeId: traineeId,
@@ -48,7 +33,7 @@ Router.put('/', (req, res) => {
         }
       }).then(applicationFound => {
         if (applicationFound) {
-          applicationFound.update({ statusAppli: false });
+          applicationFound.update({ statusAppli: false, selection: false });
           applicationFound.save().then(result => res.status(200).json(result.dataValues));
         } else {
           res.status(404).json({
@@ -57,7 +42,6 @@ Router.put('/', (req, res) => {
         }
       });
       break;
-
     default:
       res.status(404).json({
         error: 'Select the mode '
@@ -74,58 +58,13 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
   const { mode } = req.params;
   switch (mode) {
     case 'APPLICATION':
-      models.Missions.findAll({
-        where: { companyId: req.params.id }
-      }).then(missionsFound => {
+      models.Missions.findAll({ where: { CompanyId: req.params.id } }).then(missionsFound => {
         if (missionsFound) {
           const data = [];
           let newPromise = null;
           missionsFound.map(element => {
             newPromise = models.Applications.findAll({
-              where: { MissionId: element.dataValues.id, statusAppli: true, preselection: null },
-              order: ['MissionId'],
-              include: [
-                {
-                  model: models.Trainee,
-                  attributes: ['firstname', 'pictures', 'address', 'town', 'postalCode'],
-                  include: [
-                    {
-                      model: models.LevelStudies
-                    },
-                    {
-                      model: models.Schools
-                    }
-                  ]
-                }
-              ]
-            }).then(applicationFound => {
-              if (applicationFound.length !== 0) {
-                data.push({
-                  mission_id: element.dataValues.id,
-                  titleMission: element.dataValues.titleMission,
-                  dataApplications: applicationFound
-                });
-              }
-            });
-          });
-          Promise.all([newPromise]).then(() =>
-            res.status(200).json({ company_id: req.params.id, data })
-          );
-        } else {
-          res.status(404).json({ error: 'no application ' });
-        }
-      });
-      break;
-    case 'PRESELECT':
-      models.Missions.findAll({
-        where: { companyId: req.params.id }
-      }).then(missionsFound => {
-        if (missionsFound) {
-          const data = [];
-          let newPromise = null;
-          missionsFound.map(element => {
-            newPromise = models.Applications.findAll({
-              where: { MissionId: element.dataValues.id, statusAppli: true, preselection: true },
+              where: { MissionId: element.dataValues.id, statusAppli: true, selection: null },
               order: ['MissionId'],
               include: [
                 {

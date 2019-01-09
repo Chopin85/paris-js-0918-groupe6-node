@@ -106,12 +106,7 @@ missionRouter
     });
   })
   // valider ma teem
-  .put('/validate', (req, res) => {
-    const { missionId } = req.body;
-    models.Missions.findAll({
-      where: { companyId: req.params.id, Missionid: missionId }
-    }).the(missionsFound => missionsFound.map(mission =>))
-  })
+
   .delete((req, res) => {
     models.Missions.destroy({
       where: {
@@ -126,6 +121,33 @@ missionRouter
     );
   });
 
+missionRouter.route('/validate').put((req, res) => {
+  const { missionId, companyId } = req.body;
+  models.Applications.count({
+    where: { Missionid: missionId, selection: true }
+  }).then(result => {
+    console.log(result);
+
+    if (result) {
+      if (result > 2 && result < 6) {
+        models.Missions.findOne({
+          where: { CompanyId: companyId, id: missionId }
+        }).then(missionFound => {
+          if (missionFound) {
+            missionFound.update({ isFull: true });
+            missionFound.save().then(resultData => res.status(200).json(resultData.dataValues));
+          } else {
+            res.status(404).json({ error: 'cant find the mission in DB' });
+          }
+        });
+      } else {
+        res.status(422).json({ error: 'number of student  beetween 3-5' });
+      }
+    } else {
+      res.status(404).json({ error: 'Missed mission id or company id ' });
+    }
+  });
+});
 // app.use('/mission', router);
 
 module.exports = missionRouter;
