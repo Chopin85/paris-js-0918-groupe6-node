@@ -104,8 +104,8 @@ traineeRoute.post('/login', (req, res) => {
   }
 });
 // Route for GET profile Trainee
-traineeRoute.get('/profile', (req, res) => {
-  const { id } = req.query;
+traineeRoute.get('/profile/:id', (req, res) => {
+  const { id } = req.params;
   models.Trainee.findOne({
     where: { id }
   })
@@ -122,7 +122,7 @@ traineeRoute.get('/profile', (req, res) => {
 });
 // Route for UPDATE profile Trainee
 traineeRoute.put('/profile', (req, res) => {
-  const { id, lastmane, firstname, phone, address, town, postalCode } = req.body;
+  const { id, lastname, firstname, phone, address, town, postalCode } = req.body;
   models.Trainee.findOne({
     where: { id }
   })
@@ -131,7 +131,7 @@ traineeRoute.put('/profile', (req, res) => {
       if (traineeFound) {
         // console.log(traineeFound);
         traineeFound.update(
-          { lastmane, firstname, phone, address, town, postalCode },
+          { lastname, firstname, phone, address, town, postalCode },
           { id: [req.body.id] }
         );
         res.status(200).json(traineeFound);
