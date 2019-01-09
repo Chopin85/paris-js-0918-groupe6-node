@@ -3,32 +3,66 @@ const express = require('express');
 const Router = express.Router();
 const models = require('../models');
 
-// Modification de
 Router.put('/', (req, res) => {
-  const { missionId, traineeId } = req.body;
+  const { missionId, traineeId, mode } = req.body;
+  switch (mode) {
+    case 'preselect':
+      models.Applications.findOne({
+        where: {
+          TraineeId: traineeId,
+          MissionId: missionId
+        }
+      }).then(applicationFound => {
+        if (applicationFound) {
+          applicationFound.update({ preselection: true });
+          applicationFound.save().then(result => res.status(200).json(result.dataValues));
+        } else {
+          res.status(404).json({
+            error: 'Student already preselected '
+          });
+        }
+      });
+      break;
+    case 'select':
+      models.Applications.findOne({
+        where: {
+          TraineeId: traineeId,
+          MissionId: missionId
+        }
+      }).then(applicationFound => {
+        if (applicationFound) {
+          applicationFound.update({ selection: true });
+          applicationFound.save().then(result => res.status(200).json(result.dataValues));
+        } else {
+          res.status(404).json({
+            error: 'Student already preselected '
+          });
+        }
+      });
+      break;
+    case 'refuse':
+      models.Applications.findOne({
+        where: {
+          TraineeId: traineeId,
+          MissionId: missionId
+        }
+      }).then(applicationFound => {
+        if (applicationFound) {
+          applicationFound.update({ statusAppli: false });
+          applicationFound.save().then(result => res.status(200).json(result.dataValues));
+        } else {
+          res.status(404).json({
+            error: 'Student already preselected '
+          });
+        }
+      });
+      break;
 
-  models.Applications.findOne({
-    where: {
-      TraineeId: traineeId,
-      MissionId: missionId,
-      statusAppli: true
-    }
-  }).then(applicationFound => {
-    if (applicationFound) {
-      applicationFound.update({
-        statusAppli: false
-      });
-      applicationFound.save();
-      res.status(201).json({
-        messga: 'application deleted'
-      });
-    } else {
-      res.status(404).json({
-        error: 'application already deleted '
-      });
-    }
-  });
+    default:
+      break;
+  }
 });
+
 /**
  * return the informations of the trainees
  * that candidate to missions of one company
