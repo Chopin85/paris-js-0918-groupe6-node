@@ -122,4 +122,10 @@ missionRouter
 
 // app.use('/mission', router);
 
+missionRouter.route('/getcount').get((req, res) => {
+  models.Missions.count().then(c => {
+    res.json({ count: c });
+  });
+});
+
 module.exports = missionRouter;
