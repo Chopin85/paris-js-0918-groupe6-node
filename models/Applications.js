@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       statusAppli: DataTypes.BOOLEAN,
       dateAppli: DataTypes.DATE,
-      preselection: DataTypes.STRING,
+      preselection: DataTypes.BOOLEAN,
       selection: DataTypes.BOOLEAN
     },
     {}
