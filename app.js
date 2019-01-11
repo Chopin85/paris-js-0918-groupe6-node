@@ -8,7 +8,8 @@ const {
   traineeRoute,
   companyRoute,
   applicationRoute,
-  paraData
+  paraData,
+  adminRoute
 } = require('./routers');
 const models = require('./models');
 
@@ -29,6 +30,7 @@ app.use('/company', companyRoute);
 app.use('/paradata', paraData);
 app.use('/application', applicationRoute);
 app.use('/general', paraData);
+app.use('/salutadmin', adminRoute);
 
 app.use('/public', express.static('public'));
 
