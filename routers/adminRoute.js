@@ -46,4 +46,22 @@ adminRoute.post('/login', (req, res) => {
   }
 });
 
+adminRoute.get('/missions', (req, res) => {
+  models.Missions.findAll({
+    where: {
+      isFull: 1
+    },
+    include: [
+      {
+        model: models.Company
+      }
+    ]
+  }).then(mf =>
+    mf
+      ? res.json(mf)
+      : res.status(404).json({
+          error: 'Pas de Mission pour votre recherche'
+        })
+  );
+});
 module.exports = adminRoute;
