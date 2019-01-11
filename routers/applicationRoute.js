@@ -5,7 +5,7 @@ const models = require('../models');
 
 Router.put('/', (req, res) => {
   const { missionId, traineeId, mode } = req.body;
-  console.log('mode ', mode);
+  console.log('element', missionId, traineeId, mode);
 
   switch (mode) {
     case 'SELECT':
@@ -69,7 +69,7 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
               include: [
                 {
                   model: models.Trainee,
-                  attributes: ['firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
                   include: [
                     {
                       model: models.LevelStudies
@@ -112,7 +112,7 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
               include: [
                 {
                   model: models.Trainee,
-                  attributes: ['firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
                   include: [
                     {
                       model: models.LevelStudies
