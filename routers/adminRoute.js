@@ -47,21 +47,19 @@ adminRoute.post('/login', (req, res) => {
 });
 
 adminRoute.get('/missions', (req, res) => {
-  models.Missions.findAll({
-    where: {
-      isFull: 1
-    },
+  models.Company.findAll({
     include: [
       {
-        model: models.Company
+        required: true,
+        model: models.Missions
       }
     ]
-  }).then(mf =>
-    mf
-      ? res.json(mf)
-      : res.status(404).json({
-          error: 'Pas de Mission pour votre recherche'
-        })
-  );
+  }).then(f => {
+    if (f) {
+      res.status(200).send(f);
+    } else {
+      res.status(400).json({ message: "pas d'existance" });
+    }
+  });
 });
 module.exports = adminRoute;
