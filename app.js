@@ -8,7 +8,8 @@ const {
   traineeRoute,
   companyRoute,
   applicationRoute,
-  paraData
+  paraData,
+  adminRoute
 } = require('./routers');
 const models = require('./models');
 
@@ -18,15 +19,20 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 app.use('/mission', missionRouter);
 app.use('/trainee', traineeRoute);
 app.use('/company', companyRoute);
 app.use('/paradata', paraData);
 app.use('/application', applicationRoute);
 app.use('/general', paraData);
+app.use('/salutadmin', adminRoute);
+
+app.use('/public', express.static('public'));
 
 /* Server Listening */
 

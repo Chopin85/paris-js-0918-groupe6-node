@@ -32,6 +32,21 @@ module.exports = {
         isActived: true,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        lastname: 'Magro',
+        firstname: 'Gerard',
+        email: 'gerard@gmail.com',
+        pictures: 'http://www.affaritaliani.it/static/upl2018/luca/luca-bianchi10.jpg',
+        phone: '0652407389',
+        address: '11 rue de rome',
+        town: 'Paris',
+        postalCode: 75012,
+        password: 'gerard',
+        isClosed: false,
+        isActived: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]);
   },
