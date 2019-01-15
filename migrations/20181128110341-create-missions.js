@@ -20,21 +20,21 @@ module.exports = {
         type: Sequelize.DATE
       },
       description: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       isActived: {
         type: Sequelize.BOOLEAN
       },
       town: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       isFull: {
         type: Sequelize.BOOLEAN
       },
       intro: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       pictures: {
