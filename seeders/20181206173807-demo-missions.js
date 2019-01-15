@@ -36,7 +36,8 @@ module.exports = {
           town: 'Paris',
           intro: 'Être responsable de la qualité et du bon fonctionnement de nos stations',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          LevelStudyId: 1
         },
         {
           CompanyId: 2,
@@ -61,7 +62,8 @@ module.exports = {
           town: 'Paris',
           intro: 'YouLoveWords cherche son Office Manager',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          LevelStudyId: 1
         },
         {
           CompanyId: 3,
@@ -102,7 +104,8 @@ module.exports = {
           intro:
             'Pour relever ces défis, nous recrutons un(e) Développeur Front-End en stage ou en alternance.',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          LevelStudyId: 1
         },
         {
           CompanyId: 3,
@@ -137,7 +140,8 @@ module.exports = {
           town: 'Paris',
           intro: 'Pour relever ces défis, nous recrutons un(e) Développeur Front-End expérimenté.',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          LevelStudyId: 1
         },
         {
           CompanyId: 2,
@@ -186,7 +190,8 @@ module.exports = {
           town: 'Paris',
           intro: 'Pour relever ces défis, nous recrutons un(e) stagiaire Bras Droit de CEO.',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          LevelStudyId: 1
         },
         {
           CompanyId: 1,
@@ -219,7 +224,8 @@ module.exports = {
           town: 'Paris',
           intro: 'Pour relever ces défis, nous recrutons un(e) stagiaire Product Manager.',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          LevelStudyId: 1
         },
         {
           CompanyId: 1,
@@ -233,7 +239,8 @@ module.exports = {
           town: 'Paris',
           intro: 'Neque porro quisquam est qui dolorem ipsum quia dolor',
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          LevelStudyId: 1
         }
       ],
       {}
