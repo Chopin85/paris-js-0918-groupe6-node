@@ -1,9 +1,10 @@
 const express = require('express');
 
 const traineeRoute = express.Router();
+const multer = require('multer');
 const models = require('../models');
 
-// post('/')
+//// SINGUP ////
 traineeRoute.post('/', (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   if (firstname == null || lastname == null || email == null || password == null) {
@@ -102,43 +103,75 @@ traineeRoute.post('/login', (req, res) => {
       });
   }
 });
-
-traineeRoute.post('/profile', (req, res) => {
-  const { id } = req.body;
+// Route for GET profile Trainee
+traineeRoute.get('/profile/:id', (req, res) => {
+  const { id } = req.params;
   models.Trainee.findOne({
     where: { id }
   })
     // select * from trainee where email = req.body.email
     .then(traineeFound => {
       if (traineeFound) {
-        console.log(traineeFound);
+        // console.log(traineeFound);
         res.status(200).json(traineeFound);
       } else {
-        console.log(traineeFound);
+        // console.log(traineeFound);
         res.status(401).json({ message: 'user not found' });
       }
     });
 });
-
+// Route for UPDATE profile Trainee
 traineeRoute.put('/profile', (req, res) => {
-  const { id, lastmane, firstname, phone, address, town, postalCode } = req.body;
+  const { id, lastname, firstname, phone, address, town, postalCode } = req.body;
   models.Trainee.findOne({
     where: { id }
   })
     // select * from trainee where email = req.body.email
     .then(traineeFound => {
       if (traineeFound) {
-        console.log(traineeFound);
+        // console.log(traineeFound);
         traineeFound.update(
-          { lastmane, firstname, phone, address, town, postalCode },
+          { lastname, firstname, phone, address, town, postalCode },
           { id: [req.body.id] }
         );
         res.status(200).json(traineeFound);
       } else {
-        console.log(traineeFound);
+        // console.log(traineeFound);
         res.status(401).json({ message: 'user not found' });
       }
     });
+});
+// Route for UPLOAD photo profile
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/photoProfile');
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 3 } });
+
+traineeRoute.post('/uploadphoto/:id', upload.single('avatar'), function(req, res, next) {
+  console.log(req.params.id);
+  console.log(req.file);
+  const id = req.params.id;
+  models.Trainee.findOne({
+    where: { id }
+  }).then(traineeFound => {
+    if (traineeFound) {
+      console.log(traineeFound);
+      traineeFound.update({ pictures: req.file.path }, { id });
+      res.status(200);
+    } else {
+      console.log(traineeFound);
+      res.status(401).json({ message: 'user not found' });
+    }
+  });
+  // console.log(req.body);
+  res.end();
 });
 
 module.exports = traineeRoute;
