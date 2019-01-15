@@ -1,7 +1,6 @@
-
-
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Applications', {
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable('Applications', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,15 +8,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       statusAppli: {
+        allowNull: true,
         type: Sequelize.BOOLEAN
       },
       dateAppli: {
+        allowNull: true,
         type: Sequelize.DATE
       },
       preselection: {
-        type: Sequelize.STRING
+        allowNull: true,
+        type: Sequelize.BOOLEAN
       },
       selection: {
+        allowNull: true,
         type: Sequelize.BOOLEAN
       },
       createdAt: {

@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Missions = sequelize.define(
-    'Missions', {
+    'Missions',
+    {
       titleMission: DataTypes.STRING,
       dateStart: DataTypes.DATE,
       dateEnd: DataTypes.DATE,
@@ -10,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       isFull: DataTypes.BOOLEAN,
       intro: DataTypes.STRING,
       pictures: DataTypes.STRING
-    }, {}
+    },
+    {}
   );
   Missions.associate = models => {
     // associations can be defined here
@@ -25,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       // }
     });
     Missions.belongsToMany(
-      models.Trainee, {
+      models.Trainee,
+      {
         through: 'Applications'
       }
       // foreignKey: {
@@ -33,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
       // }
     );
     Missions.belongsToMany(
-      models.Schools, {
+      models.Schools,
+      {
         through: 'Schools&Missions'
       }
       // {

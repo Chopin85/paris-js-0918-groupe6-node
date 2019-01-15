@@ -13,7 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       isClosed: DataTypes.BOOLEAN,
       isActived: DataTypes.BOOLEAN,
-      reasonclosed: DataTypes.STRING
+      reasonclosed: DataTypes.STRING,
+      description: DataTypes.STRING,
+      isAdmin: DataTypes.BOOLEAN,
+      school: DataTypes.STRING,
+      titre: DataTypes.STRING,
+      dateStart: DataTypes.DATE,
+      dateEnd: DataTypes.DATE
     },
     {}
   );

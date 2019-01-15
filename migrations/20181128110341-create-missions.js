@@ -8,30 +8,33 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       titleMission: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       dateStart: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       dateEnd: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       description: {
+        allowNull: true,
         type: Sequelize.STRING
       },
-      isActieved: {
+      isActived: {
         type: Sequelize.BOOLEAN
       },
       town: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       isFull: {
         type: Sequelize.BOOLEAN
       },
-      updateAt: {
-        type: Sequelize.DATE
-      },
       intro: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       pictures: {
