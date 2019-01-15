@@ -70,7 +70,16 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
               include: [
                 {
                   model: models.Trainee,
-                  attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  attributes: [
+                    'firstname',
+                    'pictures',
+                    'town',
+                    'dateStart',
+                    'dateEnd',
+                    'titre',
+                    'school',
+                    'description'
+                  ],
                   include: [
                     {
                       model: models.LevelStudies
