@@ -34,6 +34,7 @@ module.exports = {
             Permis B indispensabl
             `,
           town: 'Paris',
+          intro: 'Être responsable de la qualité et du bon fonctionnement de nos stations',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -58,6 +59,7 @@ module.exports = {
             Polyvalence, méthode, organisation, anticipation, autonomie, réactivité, bon sens relationnel et très bonne maîtrise de la langue française sont autant de qualités nécessaires pour réussir dans ce métier.
             `,
           town: 'Paris',
+          intro: 'YouLoveWords cherche son Office Manager',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -97,6 +99,8 @@ module.exports = {
               Tu cherches à travailler en équipe
             `,
           town: 'Paris',
+          intro:
+            'Pour relever ces défis, nous recrutons un(e) Développeur Front-End en stage ou en alternance.',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -131,6 +135,7 @@ module.exports = {
             Tu es évidemment à l'aise avec le HTML, le CSS, le JavaScript/TypeScript, les préprocesseurs CSS, etc.
             Tu fais preuve d'autonomie et tu es force de proposition`,
           town: 'Paris',
+          intro: 'Pour relever ces défis, nous recrutons un(e) Développeur Front-End expérimenté.',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -179,6 +184,7 @@ module.exports = {
             Esprit d’initiative, enthousiaste, team-player
             La maîtrise de l’anglais est essentielle ; la maîtrise de l’espagnol est un véritable plus`,
           town: 'Paris',
+          intro: 'Pour relever ces défis, nous recrutons un(e) stagiaire Bras Droit de CEO.',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -211,6 +217,7 @@ module.exports = {
             Tu aimes les chiffres et les données, tu tires un épanouissement profond lorsque tu arrives à les faire parler.
             Précis(e), organisé(e), rigoureux(se)`,
           town: 'Paris',
+          intro: 'Pour relever ces défis, nous recrutons un(e) stagiaire Product Manager.',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -224,6 +231,7 @@ module.exports = {
                          qui n’aime la souffrance pour elle-même, qui ne la recherche
                          et qui ne la veuille pour elle-même…`,
           town: 'Paris',
+          intro: 'Neque porro quisquam est qui dolorem ipsum quia dolor',
           createdAt: new Date(),
           updatedAt: new Date()
         }
