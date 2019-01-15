@@ -68,7 +68,7 @@ adminRoute.get('/missions', (req, res) => {
     where: { isFull: 1 },
     include: {
       model: models.Company,
-      attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone']
+      attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone', 'email']
     }
   }).then(missionsFound => {
     if (missionsFound) {
