@@ -131,6 +131,8 @@ traineeRoute.put('/profile', (req, res) => {
     address,
     town,
     postalCode,
+    school,
+    titre,
     description,
     dateStart,
     dateEnd
@@ -150,6 +152,8 @@ traineeRoute.put('/profile', (req, res) => {
             address,
             town,
             postalCode,
+            school,
+            titre,
             description,
             dateStart: new Date(dateStart),
             dateEnd: new Date(dateEnd)
