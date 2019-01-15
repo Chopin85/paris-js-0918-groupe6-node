@@ -47,6 +47,7 @@ adminRoute.post('/login', (req, res) => {
 });
 
 adminRoute.get('/missions', (req, res) => {
+  // ********************* test required **********************************
   // models.Company.findAll({
   //   include: [
   //     {
@@ -61,6 +62,7 @@ adminRoute.get('/missions', (req, res) => {
   //     res.status(400).json({ message: "pas d'existance" });
   //   }
   // });
+  // ***********************************************************************
   console.log('ADMIN');
   models.Missions.findAll({
     where: { isFull: 1 },
@@ -81,7 +83,6 @@ adminRoute.get('/missions', (req, res) => {
           include: [
             {
               model: models.Trainee,
-              attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
               include: [
                 {
                   model: models.LevelStudies
@@ -108,4 +109,25 @@ adminRoute.get('/missions', (req, res) => {
     }
   });
 });
+// *************** test double include *****************
+// console.log('ADMIN');
+// models.Missions.findAll({
+//   where: { isFull: 1 },
+//   include: [
+//     {
+//       model: models.Applications,
+//       include: [models.Trainee]
+//     }
+//   ]
+// }).then(missionsFound => {
+//   if (missionsFound) {
+//     let data = [];
+//     const trainee = [];
+//     let newPromise = null;
+//     data = missionsFound;
+//     Promise.all([newPromise]).then(() => res.status(200).json({ data, trainee }));
+//   } else {
+//     res.status(404).json({ error: 'no application ' });
+//   }
+// });
 module.exports = adminRoute;
