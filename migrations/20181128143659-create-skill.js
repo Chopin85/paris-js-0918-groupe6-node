@@ -8,13 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      skill_1: {
-        type: Sequelize.STRING
-      },
-      skill_2: {
-        type: Sequelize.STRING
-      },
-      skill_3: {
+      label: {
         type: Sequelize.STRING
       },
       createdAt: {
