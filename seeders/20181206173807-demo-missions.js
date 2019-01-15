@@ -222,7 +222,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          CompanyId: 5,
+          CompanyId: 1,
           titleMission: 'Mission ',
           dateStart: new Date('2018/12/10'),
           dateEnd: new Date('2018/12/10'),
