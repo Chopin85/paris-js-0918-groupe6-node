@@ -20,7 +20,7 @@ Router.put('/', (req, res) => {
             where: {
               TraineeId: traineeId,
               MissionId: missionId,
-              selection: false
+              selection: null
             }
           }).then(applicationFound => {
             if (applicationFound) {
