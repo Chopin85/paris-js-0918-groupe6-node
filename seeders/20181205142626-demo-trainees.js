@@ -45,6 +45,7 @@ module.exports = {
         password: 'gerard',
         isClosed: false,
         isActived: true,
+        isAdmin: true,
         createdAt: new Date(),
         updatedAt: new Date()
       }

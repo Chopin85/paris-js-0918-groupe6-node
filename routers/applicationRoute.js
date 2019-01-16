@@ -5,7 +5,7 @@ const models = require('../models');
 
 Router.put('/', (req, res) => {
   const { missionId, traineeId, mode } = req.body;
-  console.log('element', missionId, traineeId, mode);
+  // console.log('element', missionId, traineeId, mode);
 
   switch (mode) {
     case 'SELECT':
@@ -56,13 +56,13 @@ Router.put('/', (req, res) => {
  */
 Router.get('/:id/:mode/mytrainee', (req, res) => {
   const { mode } = req.params;
-  console.log(mode);
   switch (mode) {
     case 'APPLICATION':
       models.Missions.findAll({ where: { CompanyId: req.params.id } }).then(missionsFound => {
         if (missionsFound) {
           const data = [];
           let newPromise = null;
+          const promises = [];
           missionsFound.map(element => {
             newPromise = models.Applications.findAll({
               where: { MissionId: element.dataValues.id, statusAppli: true, selection: null },
@@ -70,7 +70,17 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
               include: [
                 {
                   model: models.Trainee,
-                  attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  attributes: [
+                    'id',
+                    'firstname',
+                    'pictures',
+                    'town',
+                    'dateStart',
+                    'dateEnd',
+                    'titre',
+                    'school',
+                    'description'
+                  ],
                   include: [
                     {
                       model: models.LevelStudies
@@ -90,10 +100,12 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                 });
               }
             });
+            promises.push(newPromise);
           });
-          Promise.all([newPromise]).then(() =>
-            res.status(200).json({ company_id: req.params.id, data })
-          );
+
+          Promise.all(promises).then(() => {
+            res.status(200).json({ company_id: req.params.id, data });
+          });
         } else {
           res.status(404).json({ error: 'no application ' });
         }
@@ -106,6 +118,7 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
         if (missionsFound) {
           const data = [];
           let newPromise = null;
+          const promises = [];
           missionsFound.map(element => {
             newPromise = models.Applications.findAll({
               where: { MissionId: element.dataValues.id, selection: true },
@@ -113,7 +126,17 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
               include: [
                 {
                   model: models.Trainee,
-                  attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
+                  attributes: [
+                    'id',
+                    'firstname',
+                    'pictures',
+                    'town',
+                    'dateStart',
+                    'dateEnd',
+                    'titre',
+                    'school',
+                    'description'
+                  ],
                   include: [
                     {
                       model: models.LevelStudies
@@ -133,8 +156,9 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                 });
               }
             });
+            promises.push(newPromise);
           });
-          Promise.all([newPromise]).then(() =>
+          Promise.all(promises).then(() =>
             res.status(200).json({ company_id: req.params.id, data })
           );
         } else {
@@ -142,54 +166,54 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
         }
       });
       break;
-    case 'ADMIN':
-      console.log('ADMIN');
-      models.Missions.findAll({
-        where: { isFull: 1 },
-        include: {
-          model: models.Company,
-          attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone']
-        }
-      }).then(missionsFound => {
-        if (missionsFound) {
-          let data = [];
-          const trainee = [];
-          let newPromise = null;
-          data = missionsFound;
-          missionsFound.map(element => {
-            newPromise = models.Applications.findAll({
-              where: { MissionId: element.dataValues.id, selection: true },
-              order: ['MissionId'],
-              include: [
-                {
-                  model: models.Trainee,
-                  attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
-                  include: [
-                    {
-                      model: models.LevelStudies
-                    },
-                    {
-                      model: models.Schools
-                    }
-                  ]
-                }
-              ]
-            }).then(applicationFound => {
-              if (applicationFound.length !== 0) {
-                trainee.push({
-                  mission_id: element.dataValues.id,
-                  titleMission: element.dataValues.titleMission,
-                  dataApplications: applicationFound
-                });
-              }
-            });
-          });
-          Promise.all([newPromise]).then(() => res.status(200).json({ data, trainee }));
-        } else {
-          res.status(404).json({ error: 'no application ' });
-        }
-      });
-      break;
+    // case 'ADMIN':
+    //   console.log('ADMIN');
+    //   models.Missions.findAll({
+    //     where: { isFull: 1 },
+    //     include: {
+    //       model: models.Company,
+    //       attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone']
+    //     }
+    //   }).then(missionsFound => {
+    //     if (missionsFound) {
+    //       let data = [];
+    //       const trainee = [];
+    //       let newPromise = null;
+    //       data = missionsFound;
+    //       missionsFound.map(element => {
+    //         newPromise = models.Applications.findAll({
+    //           where: { MissionId: element.dataValues.id, selection: true },
+    //           order: ['MissionId'],
+    //           include: [
+    //             {
+    //               model: models.Trainee,
+    //               attributes: ['id', 'firstname', 'pictures', 'address', 'town', 'postalCode'],
+    //               include: [
+    //                 {
+    //                   model: models.LevelStudies
+    //                 },
+    //                 {
+    //                   model: models.Schools
+    //                 }
+    //               ]
+    //             }
+    //           ]
+    //         }).then(applicationFound => {
+    //           if (applicationFound.length !== 0) {
+    //             trainee.push({
+    //               mission_id: element.dataValues.id,
+    //               titleMission: element.dataValues.titleMission,
+    //               dataApplications: applicationFound
+    //             });
+    //           }
+    //         });
+    //       });
+    //       Promise.all([newPromise]).then(() => res.status(200).json({ data, trainee }));
+    //     } else {
+    //       res.status(404).json({ error: 'no application ' });
+    //     }
+    //   });
+    //   break;
     default:
       res.status(404).json({ error: 'select the mode' });
       break;
