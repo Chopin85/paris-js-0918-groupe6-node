@@ -183,7 +183,12 @@ const upload = multer({
   limits: { fileSize: 1024 * 1024 * 3 },
   fileFilter: (req, file, cb) => {
     console.log(file.mimetype);
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') cb(null, true);
+    if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpeg' ||
+      file.mimetype === 'image/jpg'
+    )
+      cb(null, true);
     else cb(new Error('Mauvais format'));
   }
 });
