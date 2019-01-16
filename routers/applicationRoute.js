@@ -96,6 +96,7 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                 data.push({
                   mission_id: element.dataValues.id,
                   titleMission: element.dataValues.titleMission,
+                  isFull: element.dataValues.isFull,
                   dataApplications: applicationFound
                 });
               }
@@ -149,6 +150,7 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                 data.push({
                   mission_id: element.dataValues.id,
                   titleMission: element.dataValues.titleMission,
+                  isFull: element.dataValues.isFull,
                   dataApplications: applicationFound
                 });
               }
