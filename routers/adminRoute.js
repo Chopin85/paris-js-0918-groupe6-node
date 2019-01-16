@@ -47,19 +47,87 @@ adminRoute.post('/login', (req, res) => {
 });
 
 adminRoute.get('/missions', (req, res) => {
-  models.Company.findAll({
-    include: [
-      {
-        required: true,
-        model: models.Missions
-      }
-    ]
-  }).then(f => {
-    if (f) {
-      res.status(200).send(f);
+  // ********************* test required **********************************
+  // models.Company.findAll({
+  //   include: [
+  //     {
+  //       required: true,
+  //       model: models.Missions
+  //     }
+  //   ]
+  // }).then(f => {
+  //   if (f) {
+  //     res.status(200).send(f);
+  //   } else {
+  //     res.status(400).json({ message: "pas d'existance" });
+  //   }
+  // });
+  // ***********************************************************************
+  console.log('ADMIN');
+  models.Missions.findAll({
+    where: { isFull: 1 },
+    include: {
+      model: models.Company,
+      attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone', 'email']
+    }
+  }).then(missionsFound => {
+    if (missionsFound) {
+      let data = [];
+      const trainee = [];
+      let newPromise = null;
+      data = missionsFound;
+      missionsFound.map(element => {
+        newPromise = models.Applications.findAll({
+          where: { MissionId: element.dataValues.id, selection: true },
+          order: ['MissionId'],
+          include: [
+            {
+              model: models.Trainee,
+              include: [
+                {
+                  model: models.LevelStudies
+                },
+                {
+                  model: models.Schools
+                }
+              ]
+            }
+          ]
+        }).then(applicationFound => {
+          if (applicationFound.length !== 0) {
+            trainee.push({
+              mission_id: element.dataValues.id,
+              titleMission: element.dataValues.titleMission,
+              dataApplications: applicationFound
+            });
+          }
+        });
+      });
+      Promise.all([newPromise]).then(() => res.status(200).json({ data, trainee }));
     } else {
-      res.status(400).json({ message: "pas d'existance" });
+      res.status(404).json({ error: 'no application ' });
     }
   });
 });
+// *************** test double include *****************
+// console.log('ADMIN');
+// models.Missions.findAll({
+//   where: { isFull: 1 },
+//   include: [
+//     {
+//       model: models.Applications,
+//       include: [models.Trainee]
+//     }
+//   ]
+// }).then(missionsFound => {
+//   if (missionsFound) {
+//     let data = [];
+//     const trainee = [];
+//     let newPromise = null;
+//     data = missionsFound;
+//     Promise.all([newPromise]).then(() => res.status(200).json({ data, trainee }));
+//   } else {
+//     res.status(404).json({ error: 'no application ' });
+//   }
+// });
 module.exports = adminRoute;

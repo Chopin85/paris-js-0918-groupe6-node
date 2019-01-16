@@ -8,15 +8,22 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       statusAppli: {
+        allowNull: true,
         type: Sequelize.BOOLEAN
       },
       dateAppli: {
+        allowNull: true,
         type: Sequelize.DATE
       },
       preselection: {
+<<<<<<< HEAD
+=======
+        allowNull: true,
+>>>>>>> appli
         type: Sequelize.BOOLEAN
       },
       selection: {
+        allowNull: true,
         type: Sequelize.BOOLEAN
       },
       createdAt: {

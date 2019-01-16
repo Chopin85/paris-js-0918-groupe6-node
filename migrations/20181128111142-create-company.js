@@ -9,27 +9,34 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       companyName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       lastnameContact: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       firstnameContact: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       phone: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       function: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      isActieved: {
+      isActived: {
         type: Sequelize.BOOLEAN
       },
       isClosed: {

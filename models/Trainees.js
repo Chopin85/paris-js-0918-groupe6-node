@@ -6,14 +6,20 @@ module.exports = (sequelize, DataTypes) => {
       firstname: DataTypes.STRING,
       email: DataTypes.STRING,
       pictures: DataTypes.STRING,
-      phone: DataTypes.INTEGER,
+      phone: DataTypes.STRING,
       address: DataTypes.STRING,
       town: DataTypes.STRING,
       postalCode: DataTypes.INTEGER,
       password: DataTypes.STRING,
       isClosed: DataTypes.BOOLEAN,
       isActived: DataTypes.BOOLEAN,
-      reasonclosed: DataTypes.STRING
+      reasonclosed: DataTypes.STRING,
+      description: DataTypes.STRING,
+      isAdmin: DataTypes.BOOLEAN,
+      school: DataTypes.STRING,
+      titre: DataTypes.STRING,
+      dateStart: DataTypes.DATE,
+      dateEnd: DataTypes.DATE
     },
     {}
   );

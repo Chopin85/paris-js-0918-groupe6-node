@@ -19,6 +19,21 @@ module.exports = {
         updatedAt: new Date()
       },
       {
+        companyName: 'Google',
+        lastnameContact: 'Gerry',
+        firstnameContact: 'Neri',
+        phone: '0652407389',
+        function: 'RH',
+        password: '1234',
+        email: 'gerry.neri@google.com',
+        isActived: true,
+        isClosed: false,
+        pictures:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/M_box.svg/langfr-280px-M_box.svg.png',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
         companyName: 'Goole',
         lastnameContact: 'Alberto',
         firstnameContact: 'Neri',
