@@ -1,10 +1,13 @@
 const express = require('express');
+const sequelize = require('sequelize');
 
 const traineeRoute = express.Router();
 const multer = require('multer');
 const models = require('../models');
 
-// // SINGUP ////
+const { Op } = sequelize;
+
+//// SINGUP ////
 traineeRoute.post('/', (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   if (firstname == null || lastname == null || email == null || password == null) {
@@ -49,6 +52,11 @@ traineeRoute.get('/:id/application', (req, res) => {
     include: [
       {
         model: models.Missions,
+        where: {
+          isActived: {
+            [Op.or]: [true, null]
+          }
+        },
         include: [
           {
             model: models.Company

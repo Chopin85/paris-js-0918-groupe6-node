@@ -1,7 +1,10 @@
 const express = require('express');
+const sequelize = require('sequelize');
 
 const adminRoute = express.Router();
 const models = require('../models');
+
+const { Op } = sequelize;
 
 // post('/login')
 // 1- le mail est-il dans la base de données?
@@ -65,7 +68,12 @@ adminRoute.get('/missions', (req, res) => {
   // ***********************************************************************
   console.log('ADMIN');
   models.Missions.findAll({
-    where: { isFull: 1 },
+    where: {
+      isFull: 1,
+      isActived: {
+        [Op.or]: [true, null]
+      }
+    },
     include: {
       model: models.Company,
       attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone', 'email']

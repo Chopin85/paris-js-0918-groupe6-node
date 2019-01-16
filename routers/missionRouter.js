@@ -1,8 +1,9 @@
 const express = require('express');
-
+const sequelize = require('sequelize');
 const models = require('../models');
 
 const missionRouter = express.Router();
+const { Op } = sequelize;
 
 missionRouter
   .route('/')
@@ -28,11 +29,18 @@ missionRouter
   .get((req, res) => {
     models.Missions.findAll({
       where: {
+        [Op.or]: [{ isFull: false }, { isFull: null }],
         titleMission: {
           $like: `%${req.query.search}%`
         },
         town: {
           $like: `%${req.query.town}%`
+        },
+        isFull: {
+          [Op.or]: [false, null]
+        },
+        isActived: {
+          [Op.or]: [true, null]
         }
       },
       include: [
@@ -108,17 +116,31 @@ missionRouter
   // valider ma teem
 
   .delete((req, res) => {
-    models.Missions.destroy({
-      where: {
-        id: req.params.id
+    // models.Missions.destroy({
+    //   where: {
+    //     id: req.params.id
+    //   }
+    // }).then(mf =>
+    //   mf
+    //     ? res.json(mf)
+    //     : res.status(404).json({
+    //         error: 'Pas de Mission'
+    //       })
+    // );
+    models.Missions.findOne({
+      where: { id: req.params.id }
+    }).then(missionFound => {
+      if (missionFound) {
+        missionFound.update({ isActived: false });
+        missionFound.save().then(data => {
+          res.status(200).json(data.id);
+        });
+      } else {
+        res.status(404).json({
+          error: 'pas de Mission'
+        });
       }
-    }).then(mf =>
-      mf
-        ? res.json(mf)
-        : res.status(404).json({
-            error: 'Pas de Mission'
-          })
-    );
+    });
   });
 
 missionRouter.route('/validate').put((req, res) => {
@@ -151,7 +173,16 @@ missionRouter.route('/validate').put((req, res) => {
 // app.use('/mission', router);
 
 missionRouter.route('/getcount').get((req, res) => {
-  models.Missions.count().then(c => {
+  models.Missions.count({
+    where: {
+      isFull: {
+        [Op.or]: [false, null]
+      },
+      isActived: {
+        [Op.or]: [true, null]
+      }
+    }
+  }).then(c => {
     res.json({ count: c });
   });
 });
