@@ -56,13 +56,13 @@ Router.put('/', (req, res) => {
  */
 Router.get('/:id/:mode/mytrainee', (req, res) => {
   const { mode } = req.params;
-  console.log(mode);
   switch (mode) {
     case 'APPLICATION':
       models.Missions.findAll({ where: { CompanyId: req.params.id } }).then(missionsFound => {
         if (missionsFound) {
           const data = [];
           let newPromise = null;
+          const promises = [];
           missionsFound.map(element => {
             newPromise = models.Applications.findAll({
               where: { MissionId: element.dataValues.id, statusAppli: true, selection: null },
@@ -100,10 +100,12 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                 });
               }
             });
+            promises.push(newPromise);
           });
-          Promise.all([newPromise]).then(() =>
-            res.status(200).json({ company_id: req.params.id, data })
-          );
+
+          Promise.all(promises).then(() => {
+            res.status(200).json({ company_id: req.params.id, data });
+          });
         } else {
           res.status(404).json({ error: 'no application ' });
         }
@@ -116,6 +118,7 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
         if (missionsFound) {
           const data = [];
           let newPromise = null;
+          const promises = [];
           missionsFound.map(element => {
             newPromise = models.Applications.findAll({
               where: { MissionId: element.dataValues.id, selection: true },
@@ -153,8 +156,9 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                 });
               }
             });
+            promises.push(newPromise);
           });
-          Promise.all([newPromise]).then(() =>
+          Promise.all(promises).then(() =>
             res.status(200).json({ company_id: req.params.id, data })
           );
         } else {
