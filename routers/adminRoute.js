@@ -31,7 +31,7 @@ adminRoute.post('/login', (req, res) => {
         } else if (
           traineeFound &&
           traineeFound.password === password &&
-          traineeFound.email === 'gerard@gmail.com'
+          traineeFound.isAdmin === true
         ) {
           // condition incomplète, ajouter les tokens dès que possible et crypter le mdp
           res.status(200).json({
