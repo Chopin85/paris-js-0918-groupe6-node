@@ -9,30 +9,12 @@ Router.put('/', (req, res) => {
 
   switch (mode) {
     case 'SELECT':
-      // models.Applications.findOne({
-      //   where: {
-      //     TraineeId: traineeId,
-      //     MissionId: missionId
-      //   },
-      //   include: [{ model: models.Missions, where: { isFull: null } }]
-      // }).then(applicationFound => {
-      //   if (applicationFound) {
-      //     applicationFound.update({ selection: true });
-      //     applicationFound.save().then(result => res.status(200).json(result.dataValues));
-      //   } else {
-      //     res.status(404).json({
-      //       error: 'Student already selected '
-      //     });
-      //   }
-      // });
       models.Missions.findOne({
         where: {
           id: missionId,
           isFull: null
         }
       }).then(missionFound => {
-        console.log('missionFound ', missionFound);
-
         if (missionFound) {
           models.Applications.findOne({
             where: {
