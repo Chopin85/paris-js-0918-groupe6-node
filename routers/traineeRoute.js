@@ -4,7 +4,7 @@ const traineeRoute = express.Router();
 const multer = require('multer');
 const models = require('../models');
 
-//// SINGUP ////
+// // SINGUP ////
 traineeRoute.post('/', (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   if (firstname == null || lastname == null || email == null || password == null) {
@@ -144,20 +144,28 @@ traineeRoute.put('/profile', (req, res) => {
 // Route for UPLOAD photo profile
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, 'public/photoProfile');
   },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
   }
 });
 
-var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 3 } });
+const upload = multer({
+  storage,
+  limits: { fileSize: 1024 * 1024 * 3 },
+  fileFilter: (req, file, cb) => {
+    console.log(file.mimetype);
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') cb(null, true);
+    else cb(new Error('Mauvais format'));
+  }
+});
 
-traineeRoute.post('/uploadphoto/:id', upload.single('avatar'), function(req, res, next) {
+traineeRoute.post('/uploadphoto/:id', upload.single('avatar'), (req, res, next) => {
   console.log(req.params.id);
   console.log(req.file);
-  const id = req.params.id;
+  const { id } = req.params;
   models.Trainee.findOne({
     where: { id }
   }).then(traineeFound => {
