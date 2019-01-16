@@ -1,7 +1,10 @@
 const express = require('express');
+const sequelize = require('sequelize');
 
 const Router = express.Router();
 const models = require('../models');
+
+const { Op } = sequelize;
 
 // const regex = /^\s*$/gm;
 Router.post('/', (req, res) => {
@@ -48,7 +51,12 @@ Router.get('/:id', (req, res) => {
     },
     include: [
       {
-        model: models.Missions
+        model: models.Missions,
+        where: {
+          isActived: {
+            [Op.or]: [true, null]
+          }
+        }
       }
     ]
   }).then(f => {
@@ -66,7 +74,10 @@ Router.get('/:id/application', (req, res) => {
       {
         model: models.Missions,
         where: {
-          CompanyId: req.params.id
+          CompanyId: req.params.id,
+          isActived: {
+            [Op.or]: [true, null]
+          }
         },
         include: [
           {

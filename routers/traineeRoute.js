@@ -1,8 +1,11 @@
 const express = require('express');
+const sequelize = require('sequelize');
 
 const traineeRoute = express.Router();
 const multer = require('multer');
 const models = require('../models');
+
+const { Op } = sequelize;
 
 //// SINGUP ////
 traineeRoute.post('/', (req, res) => {
@@ -49,6 +52,11 @@ traineeRoute.get('/:id/application', (req, res) => {
     include: [
       {
         model: models.Missions,
+        where: {
+          isActived: {
+            [Op.or]: [true, null]
+          }
+        },
         include: [
           {
             model: models.Company
