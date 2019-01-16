@@ -9,21 +9,52 @@ Router.put('/', (req, res) => {
 
   switch (mode) {
     case 'SELECT':
-      models.Applications.findOne({
+      // models.Applications.findOne({
+      //   where: {
+      //     TraineeId: traineeId,
+      //     MissionId: missionId
+      //   },
+      //   include: [{ model: models.Missions, where: { isFull: null } }]
+      // }).then(applicationFound => {
+      //   if (applicationFound) {
+      //     applicationFound.update({ selection: true });
+      //     applicationFound.save().then(result => res.status(200).json(result.dataValues));
+      //   } else {
+      //     res.status(404).json({
+      //       error: 'Student already selected '
+      //     });
+      //   }
+      // });
+      models.Missions.findOne({
         where: {
-          TraineeId: traineeId,
-          MissionId: missionId
+          id: missionId,
+          isFull: null
         }
-      }).then(applicationFound => {
-        if (applicationFound) {
-          applicationFound.update({ selection: true });
-          applicationFound.save().then(result => res.status(200).json(result.dataValues));
+      }).then(missionFound => {
+        console.log('missionFound ', missionFound);
+
+        if (missionFound) {
+          models.Applications.findOne({
+            where: {
+              TraineeId: traineeId,
+              MissionId: missionId,
+              selection: false
+            }
+          }).then(applicationFound => {
+            if (applicationFound) {
+              applicationFound.update({ selection: true });
+              applicationFound.save().then(result => res.status(200).json(result.dataValues));
+            } else {
+              res.status(404).json({ error: 'Student already selected ' });
+            }
+          });
         } else {
-          res.status(404).json({
-            error: 'Student already preselected '
+          res.status(422).json({
+            error: 'Mission is Full '
           });
         }
       });
+
       break;
     case 'REFUSE':
       models.Applications.findOne({
