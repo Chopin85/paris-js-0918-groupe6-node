@@ -57,57 +57,69 @@ Router.put('/', (req, res) => {
 Router.get('/:id/:mode/mytrainee', (req, res) => {
   const { mode } = req.params;
   console.log(mode);
+  const data = [];
+  const promises = [];
+  let newPromise = null;
+  let mapPromise = null;
+  let lengthTab = 0;
   switch (mode) {
     case 'APPLICATION':
       models.Missions.findAll({ where: { CompanyId: req.params.id } }).then(missionsFound => {
         if (missionsFound) {
-          const data = [];
-          let newPromise = null;
-          missionsFound.map(element => {
-            newPromise = models.Applications.findAll({
-              where: { MissionId: element.dataValues.id, statusAppli: true, selection: null },
-              order: ['MissionId'],
-              include: [
-                {
-                  model: models.Trainee,
-                  attributes: [
-                    'id',
-                    'firstname',
-                    'pictures',
-                    'town',
-                    'dateStart',
-                    'dateEnd',
-                    'titre',
-                    'school',
-                    'description'
-                  ],
-                  include: [
-                    {
-                      model: models.LevelStudies
-                    },
-                    {
-                      model: models.Schools
-                    }
-                  ]
+          let missionsFoundLength = missionsFound.length;
+          console.log('tab', missionsFound);
+          mapPromise = missionsFound.map((element, index) => {
+            lengthTab = index + 1;
+            console.log('index', lengthTab);
+            Promise.all([
+              models.Applications.findAll({
+                where: { MissionId: element.dataValues.id, statusAppli: true, selection: null },
+                order: ['MissionId'],
+                include: [
+                  {
+                    model: models.Trainee,
+                    attributes: [
+                      'id',
+                      'firstname',
+                      'pictures',
+                      'town',
+                      'dateStart',
+                      'dateEnd',
+                      'titre',
+                      'school',
+                      'description'
+                    ],
+                    include: [
+                      {
+                        model: models.LevelStudies
+                      },
+                      {
+                        model: models.Schools
+                      }
+                    ]
+                  }
+                ]
+              }).then(applicationFound => {
+                if (applicationFound.length !== 0) {
+                  console.log('ID MISSION', element.dataValues.id);
+                  console.log(newPromise);
+                  promises.push(newPromise);
+                  data.push({
+                    mission_id: element.dataValues.id,
+                    titleMission: element.dataValues.titleMission,
+                    dataApplications: applicationFound
+                  });
                 }
-              ]
-            }).then(applicationFound => {
-              if (applicationFound.length !== 0) {
-                data.push({
-                  mission_id: element.dataValues.id,
-                  titleMission: element.dataValues.titleMission,
-                  dataApplications: applicationFound
-                });
-              }
+              })
+            ]).then(() => {
+              res.status(200).json({ company_id: req.params.id, data });
             });
           });
-          Promise.all([newPromise]).then(() =>
-            res.status(200).json({ company_id: req.params.id, data })
-          );
         } else {
           res.status(404).json({ error: 'no application ' });
         }
       });
+
       break;
     case 'SELECT':
       models.Missions.findAll({
