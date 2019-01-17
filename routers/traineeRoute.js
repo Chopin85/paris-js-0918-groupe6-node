@@ -115,7 +115,12 @@ traineeRoute.post('/login', (req, res) => {
 traineeRoute.get('/profile/:id', (req, res) => {
   const { id } = req.params;
   models.Trainee.findOne({
-    where: { id }
+    where: { id },
+    include: [
+      {
+        model: models.LevelStudies
+      }
+    ]
   })
     // select * from trainee where email = req.body.email
     .then(traineeFound => {

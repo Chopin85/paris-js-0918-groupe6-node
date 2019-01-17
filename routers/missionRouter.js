@@ -46,6 +46,9 @@ missionRouter
       include: [
         {
           model: models.Company
+        },
+        {
+          model: models.LevelStudies
         }
       ]
     }).then(mf =>
@@ -153,20 +156,20 @@ missionRouter.route('/validate').put((req, res) => {
     if (result) {
       if (result > 2 && result < 6) {
         models.Missions.findOne({
-          where: { CompanyId: companyId, id: missionId }
+          where: { CompanyId: companyId, id: missionId, isFull: null }
         }).then(missionFound => {
           if (missionFound) {
             missionFound.update({ isFull: true });
             missionFound.save().then(resultData => res.status(200).json(resultData.dataValues));
           } else {
-            res.status(404).json({ error: 'cant find the mission in DB' });
+            res.status(500).json({ error: 'cant find the mission in DB' });
           }
         });
       } else {
         res.status(422).json({ error: 'number of student  beetween 3-5' });
       }
     } else {
-      res.status(404).json({ error: 'Missed mission id or company id ' });
+      res.status(404).json({ error: 'Missed mission id, or no students selected' });
     }
   });
 });
