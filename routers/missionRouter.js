@@ -46,6 +46,9 @@ missionRouter
       include: [
         {
           model: models.Company
+        },
+        {
+          model: models.LevelStudies
         }
       ]
     }).then(mf =>
