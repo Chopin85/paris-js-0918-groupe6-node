@@ -143,7 +143,8 @@ traineeRoute.put('/profile', (req, res) => {
     titre,
     description,
     dateStart,
-    dateEnd
+    dateEnd,
+    LevelStudyId
   } = req.body;
   models.Trainee.findOne({
     where: { id }
@@ -164,7 +165,8 @@ traineeRoute.put('/profile', (req, res) => {
             titre,
             description,
             dateStart: new Date(dateStart),
-            dateEnd: new Date(dateEnd)
+            dateEnd: new Date(dateEnd),
+            LevelStudyId
           },
           { id: [req.body.id] }
         );
