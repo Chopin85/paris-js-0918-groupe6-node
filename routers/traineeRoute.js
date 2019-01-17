@@ -148,9 +148,12 @@ traineeRoute.put('/profile', (req, res) => {
     titre,
     description,
     dateStart,
-    dateEnd,
-    LevelStudyId
+    dateEnd
   } = req.body;
+  let { LevelStudyId } = req.body;
+  if (!LevelStudyId) {
+    LevelStudyId = null;
+  }
   models.Trainee.findOne({
     where: { id }
   })
