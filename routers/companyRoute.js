@@ -52,6 +52,7 @@ Router.get('/:id', (req, res) => {
     include: [
       {
         model: models.Missions,
+        required: false,
         where: {
           isActived: {
             [Op.or]: [true, null]
