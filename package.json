@@ -1,0 +1,36 @@
+{
+  "name": "paris-js-0918-groupe6-node",
+  "version": "1.0.0",
+  "description": "## BDD",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WildCodeSchool/paris-js-0918-groupe6-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WildCodeSchool/paris-js-0918-groupe6-node/issues"
+  },
+  "homepage": "https://github.com/WildCodeSchool/paris-js-0918-groupe6-node#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "prettier": "^1.15.2",
+    "sequelize": "^4.41.2",
+    "sqlite": "^3.0.0"
+  }
+}
