@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       town: DataTypes.STRING,
       postalCode: DataTypes.INTEGER,
+      dateBirth: DataTypes.DATE,
       password: DataTypes.STRING,
       isClosed: DataTypes.BOOLEAN,
       isActived: DataTypes.BOOLEAN,
