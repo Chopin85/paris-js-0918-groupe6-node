@@ -56,7 +56,12 @@ Router.get('/:id', (req, res) => {
           isActived: {
             [Op.or]: [true, null]
           }
-        }
+        },
+        include: [
+          {
+            model: models.LevelStudies
+          }
+        ]
       }
     ]
   }).then(f => {
