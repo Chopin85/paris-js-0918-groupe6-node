@@ -1,4 +1,5 @@
 const express = require('express');
+const configRootAPI = require('./config/config.root');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -14,7 +15,7 @@ const {
 const models = require('./models');
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || configRootAPI.port;
 
 app.use(cors());
 app.use(logger('dev'));
@@ -24,20 +25,20 @@ app.use(
     extended: true
   })
 );
-app.use('/mission', missionRouter);
-app.use('/trainee', traineeRoute);
-app.use('/company', companyRoute);
-app.use('/paradata', paraData);
-app.use('/application', applicationRoute);
-app.use('/general', paraData);
-app.use('/salutadmin', adminRoute);
 
-app.use('/public', express.static('public'));
+app.use(`${configRootAPI.rootAPI}/mission`, missionRouter);
+app.use(`${configRootAPI.rootAPI}/trainee`, traineeRoute);
+app.use(`${configRootAPI.rootAPI}/company`, companyRoute);
+app.use(`${configRootAPI.rootAPI}/paradata`, paraData);
+app.use(`${configRootAPI.rootAPI}/application`, applicationRoute);
+app.use(`${configRootAPI.rootAPI}/general`, paraData);
+app.use(`${configRootAPI.rootAPI}/salutadmin`, adminRoute);
+
+app.use(`${configRootAPI.rootAPI}/public`, express.static('public'));
 
 /* Server Listening */
-
 models.sequelize.sync().then(() => {
   app.listen(port);
-  console.log(`Magic happens on port ${port}`);
+  console.log(`>>Magic happens on port ${port}`);
 });
 models.exports = app;
