@@ -25,18 +25,18 @@ missionRouter
 
     // res.end('fin post');
   })
-  .get((req, res) => {
-    models.Missions.findAll({
-      include: [
-        {
-          model: models.Company
-        },
-        {
-          model: models.LevelStudies
-        }
-      ]
-    }).then(myRes => (myRes ? res.json(myRes) : ''));
-  })
+  // .get((req, res) => {
+  //   models.Missions.findAll({
+  //     include: [
+  //       {
+  //         model: models.Company
+  //       },
+  //       {
+  //         model: models.LevelStudies
+  //       }
+  //     ]
+  //   }).then(myRes => (myRes ? res.json(myRes) : ''));
+  // })
   .get((req, res) => {
     models.Missions.findAll({
       where: {
