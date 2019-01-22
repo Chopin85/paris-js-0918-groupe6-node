@@ -92,7 +92,8 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                     'dateEnd',
                     'titre',
                     'school',
-                    'description'
+                    'description',
+                    'dateBirth'
                   ],
                   include: [
                     {
@@ -149,7 +150,8 @@ Router.get('/:id/:mode/mytrainee', (req, res) => {
                     'dateEnd',
                     'titre',
                     'school',
-                    'description'
+                    'description',
+                    'dateBirth'
                   ],
                   include: [
                     {
