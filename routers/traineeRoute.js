@@ -7,7 +7,7 @@ const models = require('../models');
 
 const { Op } = sequelize;
 
-//// SINGUP ////
+// // SINGUP ////
 traineeRoute.post('/', (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   if (firstname == null || lastname == null || email == null || password == null) {
