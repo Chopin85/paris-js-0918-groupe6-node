@@ -170,7 +170,7 @@ traineeRoute.put('/profile', (req, res) => {
             address,
             town,
             postalCode,
-            dateBirth,
+            dateBirth: new Date(dateBirth),
             school,
             titre,
             description,
