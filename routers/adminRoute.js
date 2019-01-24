@@ -74,10 +74,15 @@ adminRoute.get('/missions', (req, res) => {
         [Op.or]: [true, null]
       }
     },
-    include: {
-      model: models.Company,
-      attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone', 'email']
-    }
+    include: [
+      {
+        model: models.Company,
+        attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone', 'email']
+      },
+      {
+        model: models.LevelStudies
+      }
+    ]
   }).then(missionsFound => {
     if (missionsFound) {
       let data = [];
