@@ -25,7 +25,18 @@ missionRouter
 
     // res.end('fin post');
   })
-
+  // .get((req, res) => {
+  //   models.Missions.findAll({
+  //     include: [
+  //       {
+  //         model: models.Company
+  //       },
+  //       {
+  //         model: models.LevelStudies
+  //       }
+  //     ]
+  //   }).then(myRes => (myRes ? res.json(myRes) : ''));
+  // })
   .get((req, res) => {
     models.Missions.findAll({
       where: {
@@ -54,7 +65,7 @@ missionRouter
     }).then(mf =>
       mf
         ? res.json(mf)
-        : res.status(404).json({
+        : res.status(400).json({
             error: 'Pas de Mission pour votre recherche'
           })
     );

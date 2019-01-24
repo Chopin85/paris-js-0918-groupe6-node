@@ -74,14 +74,20 @@ adminRoute.get('/missions', (req, res) => {
         [Op.or]: [true, null]
       }
     },
-    include: {
-      model: models.Company,
-      attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone', 'email']
-    }
+    include: [
+      {
+        model: models.Company,
+        attributes: ['id', 'companyName', 'lastnameContact', 'firstnameContact', 'phone', 'email']
+      },
+      {
+        model: models.LevelStudies
+      }
+    ]
   }).then(missionsFound => {
     if (missionsFound) {
       let data = [];
       const trainee = [];
+      const promises = [];
       let newPromise = null;
       data = missionsFound;
       missionsFound.map(element => {
@@ -110,8 +116,9 @@ adminRoute.get('/missions', (req, res) => {
             });
           }
         });
+        promises.push(newPromise);
       });
-      Promise.all([newPromise]).then(() => res.status(200).json({ data, trainee }));
+      Promise.all(promises).then(() => res.status(200).json({ data, trainee }));
     } else {
       res.status(404).json({ error: 'no application ' });
     }

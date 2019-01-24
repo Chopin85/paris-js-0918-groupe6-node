@@ -7,7 +7,7 @@ const models = require('../models');
 
 const { Op } = sequelize;
 
-//// SINGUP ////
+// // SINGUP ////
 traineeRoute.post('/', (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   if (firstname == null || lastname == null || email == null || password == null) {
@@ -170,7 +170,7 @@ traineeRoute.put('/profile', (req, res) => {
             address,
             town,
             postalCode,
-            dateBirth,
+            dateBirth: new Date(dateBirth),
             school,
             titre,
             description,
@@ -223,14 +223,13 @@ traineeRoute.post('/uploadphoto/:id', upload.single('avatar'), (req, res, next) 
     if (traineeFound) {
       console.log(traineeFound);
       traineeFound.update({ pictures: req.file.path }, { id });
-      res.status(200);
+      res.status(200).json({ pictures: req.file.path });
     } else {
       console.log(traineeFound);
       res.status(401).json({ message: 'user not found' });
     }
   });
   // console.log(req.body);
-  res.end();
 });
 
 module.exports = traineeRoute;
