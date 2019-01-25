@@ -60,6 +60,9 @@ traineeRoute.get('/:id/application', (req, res) => {
         include: [
           {
             model: models.Company
+          },
+          {
+            model: models.LevelStudies
           }
         ]
       }
@@ -68,9 +71,7 @@ traineeRoute.get('/:id/application', (req, res) => {
     if (applicationFound) {
       res.status(200).send(applicationFound);
     } else {
-      res.status(404).json({
-        message: 'no application '
-      });
+      res.status(404).json({ message: 'no application ' });
     }
   });
 });
